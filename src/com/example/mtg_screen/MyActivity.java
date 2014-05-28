@@ -3,6 +3,7 @@ package com.example.mtg_screen;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class MyActivity extends Activity {
         touchEvents();
         scr1Score = (TextView) findViewById(R.id.scr1_score);
         scr2Score = (TextView) findViewById(R.id.scr2_score);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     private void touchEvents() {
