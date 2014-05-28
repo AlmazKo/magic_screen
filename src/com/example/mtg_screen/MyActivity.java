@@ -4,13 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MyActivity extends Activity {
 
     public static byte player1Life = 20;
     public static byte player2Life = 20;
+    private TextView scr1Score;
+    private TextView scr2Score;
 
     /**
      * Called when the activity is first created.
@@ -20,35 +22,46 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         touchEvents();
+        scr1Score = (TextView) findViewById(R.id.scr1_score);
+        scr2Score = (TextView) findViewById(R.id.scr2_score);
     }
 
     private void touchEvents() {
 
-        TextView screenPlayer1 = (TextView) findViewById(R.id.scr_player1);
-        TextView screenPlayer2 = (TextView) findViewById(R.id.scr_player2);
-
-        screenPlayer1.setOnClickListener(new Button.OnClickListener() {
+        findViewById(R.id.scr1_plus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-
-                clickPlayer1((TextView) v);
+                setPlayer1Score(++player1Life);
             }
         });
 
-        screenPlayer2.setOnClickListener(new Button.OnClickListener() {
+
+        findViewById(R.id.scr1_minus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                clickPlayer2((TextView) v);
+                setPlayer1Score(--player1Life);
             }
         });
+
+
+        findViewById(R.id.scr2_plus).setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                setPlayer2Score(++player2Life);
+            }
+        });
+
+
+        findViewById(R.id.scr2_minus).setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                setPlayer2Score(--player2Life);
+            }
+        });
+
+
     }
 
-    private void clickPlayer2(TextView v) {
-        player1Life--;
-        v.setText(String.valueOf(player1Life));
+    private void setPlayer1Score(byte score) {
+        scr1Score.setText(String.valueOf(score));
     }
-
-    private void clickPlayer1(TextView v) {
-        player2Life--;
-        v.setText(String.valueOf(player2Life));
-
+    private void setPlayer2Score(byte score) {
+        scr2Score.setText(String.valueOf(score));
     }
 }
