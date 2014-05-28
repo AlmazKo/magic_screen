@@ -1,7 +1,8 @@
 <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/bg">
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="300dp">
@@ -12,15 +13,17 @@
                 android:background="@drawable/minus"
                 android:layout_centerVertical="true" android:layout_alignParentLeft="true"
                 android:layout_marginLeft="32dp"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20"
-                android:textSize="80dp"
                 android:layout_alignWithParentIfMissing="false"
                 android:gravity="center"
                 android:id="@+id/scr1_score"
-                android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
+                android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                style="@style/main_title"/>
+
 
         <ImageButton
                 android:layout_width="wrap_content"
@@ -44,11 +47,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20"
-                android:textSize="80dp"
                 android:layout_alignWithParentIfMissing="false"
                 android:gravity="center"
                 android:id="@+id/scr2_score"
-                android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
+                android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                style="@style/main_title"/>
 
         <ImageButton
                 android:layout_width="wrap_content"
