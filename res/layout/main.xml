@@ -31,7 +31,7 @@
                 android:id="@+id/scr1_plus"
                 android:background="@drawable/plus"
                 android:layout_centerVertical="true" android:layout_alignParentRight="true"
-                android:layout_marginRight="32dp"/>
+                android:layout_marginRight="32dp" android:padding="10dp"/>
 
     </RelativeLayout>
     <RelativeLayout
@@ -44,7 +44,14 @@
                 android:id="@+id/scr_timer"
                 android:textSize="20sp" style="@style/timer" android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"/>
-            </RelativeLayout>
+        <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/reload"
+                android:layout_marginRight="32dp"
+                android:background="@android:drawable/ic_menu_rotate"
+                android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+    </RelativeLayout>
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="275dp">

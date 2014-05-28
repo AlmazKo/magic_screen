@@ -17,6 +17,7 @@ public class MyActivity extends Activity {
     public static byte player2Life = 20;
     private TextView scr1Score;
     private TextView scr2Score;
+    private TextView scrTimer;
     private long startTime;
 
 
@@ -36,6 +37,7 @@ public class MyActivity extends Activity {
         }
     });
 
+
     /**
      * Called when the activity is first created.
      */
@@ -43,20 +45,27 @@ public class MyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        touchEvents();
+
         scr1Score = (TextView) findViewById(R.id.scr1_score);
         scr2Score = (TextView) findViewById(R.id.scr2_score);
+
+        init();
+        touchEvents();
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        startTime      = System.currentTimeMillis();
+
         Timer timer = new Timer();
 
         timer.scheduleAtFixedRate(
                 new java.util.TimerTask() {
                     @Override
-                    public void run() { h.sendEmptyMessage(0); }
+                    public void run() {
+                        h.sendEmptyMessage(0);
+                    }
                 },
-                0, 500);
+                0, 500
+        );
     }
 
     private void touchEvents() {
@@ -66,34 +75,43 @@ public class MyActivity extends Activity {
                 setPlayer1Score(++player1Life);
             }
         });
-
-
         findViewById(R.id.scr1_minus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 setPlayer1Score(--player1Life);
             }
         });
-
-
         findViewById(R.id.scr2_plus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 setPlayer2Score(++player2Life);
             }
         });
-
-
         findViewById(R.id.scr2_minus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 setPlayer2Score(--player2Life);
             }
         });
 
+        findViewById(R.id.reload).setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                init();
+            }
+        });
+    }
 
+    void init() {
+        startTime = System.currentTimeMillis();
+        scrTimer = (TextView) findViewById(R.id.scr_timer);
+        scrTimer.setText("00:00");
+        player1Life = 20;
+        player2Life = 20;
+        setPlayer1Score(player1Life);
+        setPlayer2Score(player2Life);
     }
 
     private void setPlayer1Score(byte score) {
         scr1Score.setText(String.valueOf(score));
     }
+
     private void setPlayer2Score(byte score) {
         scr2Score.setText(String.valueOf(score));
     }
