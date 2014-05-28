@@ -30,8 +30,6 @@ public class MyActivity extends Activity {
             int minutes = seconds / 60;
             seconds = seconds % 60;
 
-            TextView scrTimer = (TextView) findViewById(R.id.scr_timer);
-
             scrTimer.setText(String.format("%02d:%02d", minutes, seconds));
             return false;
         }
