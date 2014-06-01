@@ -5,9 +5,9 @@
         <item name="android:textColor">#ffffffff</item>
         <item name="android:textSize">100sp</item>
         <item name="android:shadowColor">#ff000000</item>
-        <item name="android:shadowDx">1</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">12</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">20</item>
     </style>
 
 

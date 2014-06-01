@@ -1,6 +1,8 @@
 package com.example.mtg_screen;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,8 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.Timer;
 
 public class MyActivity extends Activity {
 
@@ -45,29 +45,59 @@ public class MyActivity extends Activity {
         setContentView(R.layout.main);
 
         scr1Score = (TextView) findViewById(R.id.scr1_score);
-        scr2Score = (TextView) findViewById(R.id.scr2_score);
+//        scr2Score = (TextView) findViewById(R.id.scr2_score);
 
         init();
         touchEvents();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+//
+//        Timer timer = new Timer();
+//
+//        timer.scheduleAtFixedRate(
+//                new java.util.TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        h.sendEmptyMessage(0);
+//                    }
+//                },
+//                0, 500
+//        );
 
-        Timer timer = new Timer();
+    }
 
-        timer.scheduleAtFixedRate(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        h.sendEmptyMessage(0);
-                    }
-                },
-                0, 500
-        );
+    void showDetails() {
+
+        SlideFragment fg = SlideFragment.newInstance(1);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.replace(R.id.details, fg);
+        ft.commit();
+    }
+
+    void ani() {
+        ValueAnimator anim = ValueAnimator.ofInt(10,200);
+        anim.setDuration(5000);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int value = (int) valueAnimator.getAnimatedValue();
+                scr1Score.setLeft(value);
+            }
+        });
+
+        anim.start();
     }
 
     private void touchEvents() {
 
+        findViewById(R.id.scr_start).setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                showDetails();
+//                   ani();
+            }
+        });
         findViewById(R.id.scr1_plus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 setPlayer1Score(++player1Life);
@@ -78,16 +108,16 @@ public class MyActivity extends Activity {
                 setPlayer1Score(--player1Life);
             }
         });
-        findViewById(R.id.scr2_plus).setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                setPlayer2Score(++player2Life);
-            }
-        });
-        findViewById(R.id.scr2_minus).setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                setPlayer2Score(--player2Life);
-            }
-        });
+//        findViewById(R.id.scr2_plus).setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                setPlayer2Score(++player2Life);
+//            }
+//        });
+//        findViewById(R.id.scr2_minus).setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                setPlayer2Score(--player2Life);
+//            }
+//        });
 
         findViewById(R.id.reload).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -111,6 +141,6 @@ public class MyActivity extends Activity {
     }
 
     private void setPlayer2Score(byte score) {
-        scr2Score.setText(String.valueOf(score));
+      //  scr2Score.setText(String.valueOf(score));
     }
 }
