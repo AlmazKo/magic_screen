@@ -68,7 +68,13 @@ public class MyActivity extends Activity {
 
     }
 
-    void changeScreen(Player player) {
+    void changeRightScreen(Player player) {
+              if (player.screenId > 2) {
+                  player.screenId = 1;
+              } else {
+                  player.screenId++;
+              }
+
         showDetails(player.fragmentId, player.screenId);
     }
 
@@ -79,15 +85,9 @@ public class MyActivity extends Activity {
 
             fg = SlideFragment.newInstance(slideId);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-//            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//            ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
             ft.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
             ft.replace(screenId, fg);
             ft.commit();
-            slideId++;
-            if (slideId > 3) {
-                slideId = 1;
-            }
         }
     }
 
@@ -150,9 +150,9 @@ public class MyActivity extends Activity {
         player1.screenId = 3;
 
 
-        player1 = new Player((TextView) findViewById(R.id.scr1_score));
-        player1.fragmentId = R.id.player_2_screen;
-        player1.screenId = 3;
+        player2 = new Player((TextView) findViewById(R.id.scr2_score));
+        player2.fragmentId = R.id.player_2_screen;
+        player2.screenId = 3;
 //        player2 = new Player((TextView) findViewById(R.id.scr2_score));
 
         startTime = System.currentTimeMillis();
@@ -161,6 +161,20 @@ public class MyActivity extends Activity {
 
         showPlayer(player1);
         showDetails(R.id.player_2_screen, 1);
+
+        View v = findViewById(R.id.player_2_screen);
+
+        v.setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public void onSwipeLeft() {
+//                changeScreen(player2);
+            }
+
+            @Override
+            public void onSwipeRight() {
+                changeRightScreen(player2);
+            }
+        });
     }
 
     private void showPlayer(Player player) {
