@@ -13,13 +13,13 @@ import android.widget.TextView;
 
 public class MyActivity extends Activity {
 
-    public static byte player1Life = 20;
-    public static byte player2Life = 20;
+    Player player1;
+    Player player2;
+
     private TextView scr1Score;
     private TextView scr2Score;
     private TextView scrTimer;
     private long startTime;
-
 
     final Handler h = new Handler(new Handler.Callback() {
         @Override
@@ -52,6 +52,7 @@ public class MyActivity extends Activity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+
 //
 //        Timer timer = new Timer();
 //
@@ -67,17 +68,31 @@ public class MyActivity extends Activity {
 
     }
 
-    void showDetails() {
+    void changeScreen(Player player) {
+        showDetails(player.fragmentId, player.screenId);
+    }
 
-        SlideFragment fg = SlideFragment.newInstance(1);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.replace(R.id.details, fg);
-        ft.commit();
+    void showDetails(int screenId, int slideId) {
+
+        SlideFragment fg = (SlideFragment) getFragmentManager().findFragmentById(screenId);
+        if (fg == null || fg.getIndex() != slideId) {
+
+            fg = SlideFragment.newInstance(slideId);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+//            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//            ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+            ft.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+            ft.replace(screenId, fg);
+            ft.commit();
+            slideId++;
+            if (slideId > 3) {
+                slideId = 1;
+            }
+        }
     }
 
     void ani() {
-        ValueAnimator anim = ValueAnimator.ofInt(10,200);
+        ValueAnimator anim = ValueAnimator.ofInt(10, 200);
         anim.setDuration(5000);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -94,18 +109,20 @@ public class MyActivity extends Activity {
 
         findViewById(R.id.scr_start).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                showDetails();
+                showDetails(R.id.player_2_screen, 2);
 //                   ani();
             }
         });
         findViewById(R.id.scr1_plus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                setPlayer1Score(++player1Life);
+                player1.add(1);
+                showPlayer(player1);
             }
         });
         findViewById(R.id.scr1_minus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                setPlayer1Score(--player1Life);
+                player1.damage(1);
+                showPlayer(player1);
             }
         });
 //        findViewById(R.id.scr2_plus).setOnClickListener(new Button.OnClickListener() {
@@ -127,20 +144,37 @@ public class MyActivity extends Activity {
     }
 
     void init() {
+        // TODO add destroy
+        player1 = new Player((TextView) findViewById(R.id.scr1_score));
+        player1.fragmentId = R.id.player_2_screen;
+        player1.screenId = 3;
+
+
+        player1 = new Player((TextView) findViewById(R.id.scr1_score));
+        player1.fragmentId = R.id.player_2_screen;
+        player1.screenId = 3;
+//        player2 = new Player((TextView) findViewById(R.id.scr2_score));
+
         startTime = System.currentTimeMillis();
         scrTimer = (TextView) findViewById(R.id.scr_timer);
         scrTimer.setText("00:00");
-        player1Life = 20;
-        player2Life = 20;
-        setPlayer1Score(player1Life);
-        setPlayer2Score(player2Life);
+
+        showPlayer(player1);
+        showDetails(R.id.player_2_screen, 1);
     }
 
-    private void setPlayer1Score(byte score) {
-        scr1Score.setText(String.valueOf(score));
+    private void showPlayer(Player player) {
+        player.lifeView.setText(String.valueOf(player1.life));
     }
 
-    private void setPlayer2Score(byte score) {
-      //  scr2Score.setText(String.valueOf(score));
-    }
+//    private void setPlayer1Score(byte score) {
+//        scr1Score.setText(String.valueOf(score));
+//    }
+//
+//    private void setPlayer2Score(byte score) {
+//        //  scr2Score.setText(String.valueOf(score));
+//    }
+
+
+
 }
