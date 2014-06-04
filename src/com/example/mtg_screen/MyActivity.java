@@ -16,6 +16,8 @@ public class MyActivity extends Activity {
     Player player1;
     Player player2;
 
+    final static int MAX_SCREENS = 5;
+
     private TextView scr1Score;
     private TextView scr2Score;
     private TextView scrTimer;
@@ -66,7 +68,7 @@ public class MyActivity extends Activity {
     }
 
     void changeRightScreen(Player player) {
-        if (player.screenId > 2) {
+        if (player.screenId >= MAX_SCREENS) {
             player.screenId = 1;
         } else {
             player.screenId++;
@@ -76,8 +78,8 @@ public class MyActivity extends Activity {
     }
 
     void changeLeftScreen(Player player) {
-        if (player.screenId < 2) {
-            player.screenId = 3;
+        if (player.screenId <= 1) {
+            player.screenId = MAX_SCREENS;
         } else {
             player.screenId--;
         }
@@ -179,7 +181,11 @@ public class MyActivity extends Activity {
         findViewById(R.id.scr1_minus).setVisibility(View.VISIBLE);
         findViewById(R.id.scr2_plus).setVisibility(View.VISIBLE);
         findViewById(R.id.scr2_minus).setVisibility(View.VISIBLE);
+
+        player1.life = 20;
+        player2.life = 20;
     }
+
 
     void init() {
         // TODO add destroy
