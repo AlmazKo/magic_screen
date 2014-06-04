@@ -44,9 +44,6 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        scr1Score = (TextView) findViewById(R.id.scr1_score);
-//        scr2Score = (TextView) findViewById(R.id.scr2_score);
-
         init();
         touchEvents();
 
@@ -77,6 +74,7 @@ public class MyActivity extends Activity {
 
         showDetails(player.fragmentId, player.screenId);
     }
+
     void changeLeftScreen(Player player) {
         if (player.screenId < 2) {
             player.screenId = 3;
@@ -129,12 +127,12 @@ public class MyActivity extends Activity {
 
     private void touchEvents() {
 
-        findViewById(R.id.scr_start).setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                showDetails(R.id.player_2_screen, 2);
-//                   ani();
-            }
-        });
+//        findViewById(R.id.scr_start).setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                showDetails(R.id.player_2_screen, 2);
+////                   ani();
+//            }
+//        });
         findViewById(R.id.scr1_plus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 player1.add(1);
@@ -147,15 +145,25 @@ public class MyActivity extends Activity {
                 showPlayer(player1);
             }
         });
-//        findViewById(R.id.scr2_plus).setOnClickListener(new Button.OnClickListener() {
+        findViewById(R.id.scr2_plus).setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                player2.add(1);
+                showPlayer(player2);
+            }
+        });
+        findViewById(R.id.scr2_minus).setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                player2.damage(1);
+                showPlayer(player2);
+            }
+        });
+
+//        findViewById(R.id.f_actions).setOnClickListener(new Button.OnClickListener() {
 //            public void onClick(View v) {
-//                setPlayer2Score(++player2Life);
+//                start();
 //            }
-//        });
-//        findViewById(R.id.scr2_minus).setOnClickListener(new Button.OnClickListener() {
-//            public void onClick(View v) {
-//                setPlayer2Score(--player2Life);
-//            }
+//
+//
 //        });
 
 //        findViewById(R.id.reload).setOnClickListener(new Button.OnClickListener() {
@@ -163,6 +171,14 @@ public class MyActivity extends Activity {
 //                init();
 //            }
 //        });
+    }
+
+    void start() {
+
+        findViewById(R.id.scr1_plus).setVisibility(View.VISIBLE);
+        findViewById(R.id.scr1_minus).setVisibility(View.VISIBLE);
+        findViewById(R.id.scr2_plus).setVisibility(View.VISIBLE);
+        findViewById(R.id.scr2_minus).setVisibility(View.VISIBLE);
     }
 
     void init() {
@@ -221,7 +237,7 @@ public class MyActivity extends Activity {
     }
 
     private void showPlayer(Player player) {
-        player.lifeView.setText(String.valueOf(player1.life));
+        player.lifeView.setText(String.valueOf(player.life));
     }
 
 //    private void setPlayer1Score(byte score) {

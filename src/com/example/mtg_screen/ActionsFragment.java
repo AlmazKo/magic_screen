@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  */
 public class ActionsFragment  extends Fragment {
 
-
+    enum STAGE {DISPOSAL, GAME}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,23 @@ public class ActionsFragment  extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.action, container, false);
+        View v = inflater.inflate(R.layout.action, container, false);
+        View vStartImage = v.findViewById(R.id.panel_actions_start);
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyActivity activity = (MyActivity) getActivity();
+                if (activity != null) {
+                    activity.start();
+                }
+            }
+        };
+
+        v.setOnClickListener(listener);
+        vStartImage.setOnClickListener(listener);
+
+        return v;
     }
+
 }

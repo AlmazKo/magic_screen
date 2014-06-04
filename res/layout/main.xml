@@ -85,7 +85,7 @@
     </RelativeLayout>
 
 
-    <fragment android:layout_width="200dp" android:layout_height="40dp"
+    <fragment android:layout_width="200dp" android:layout_height="70dp"
               android:id="@+id/f_actions"
               android:layout_centerInParent="true" android:name="com.example.mtg_screen.ActionsFragment"
               tools:layout="@layout/action"/>
