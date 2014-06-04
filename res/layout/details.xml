@@ -7,6 +7,9 @@
 
     <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scr_background" android:background="@android:drawable/bottom_bar"/>
+            android:layout_height="310dp"
+            android:id="@+id/scr_background"
+            android:background="@android:drawable/bottom_bar"
+            android:scaleType="fitXY"
+            />
 </LinearLayout>

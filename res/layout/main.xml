@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        android:orientation="vertical"
+<RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
-        >
+        android:clickable="true">
+
+
+    <FrameLayout
+            android:id="@+id/player_1_screen"
+            android:layout_width="match_parent"
+            android:layout_height="310dp"
+            android:layout_alignParentLeft="false" android:layout_alignParentTop="true">
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/player_2_screen"
+            android:layout_width="match_parent"
+            android:layout_height="310dp"
+            android:layout_alignParentLeft="false" android:layout_alignParentBottom="true">
+
+
+    </FrameLayout>
+
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="275dp" android:background="@drawable/bg_2">
+            android:layout_height="300dp" android:id="@+id/player_1_score">
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/scr1_minus"
                 android:background="@drawable/minus"
                 android:layout_centerVertical="true" android:layout_alignParentLeft="true"
-                android:layout_marginLeft="32dp"/>
+                android:layout_marginLeft="32dp" android:visibility="invisible"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -32,12 +51,64 @@
                 android:id="@+id/scr1_plus"
                 android:background="@drawable/plus"
                 android:layout_centerVertical="true" android:layout_alignParentRight="true"
-                android:layout_marginRight="32dp" android:padding="10dp"/>
-
+                android:layout_marginRight="32dp" android:padding="10dp" android:visibility="invisible"/>
     </RelativeLayout>
+
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="285dp" android:layout_marginTop="-275dp" android:id="@+id/player_2_score"
+            android:layout_alignParentBottom="true">
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/scr2_minus"
+                android:background="@drawable/minus"
+                android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+                android:layout_marginLeft="32dp" android:visibility="invisible"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:layout_alignWithParentIfMissing="false"
+                android:gravity="center"
+                android:id="@+id/scr2_score"
+                android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                style="@style/main_title"/>
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/scr2_plus"
+                android:background="@drawable/plus"
+                android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                android:layout_marginRight="32dp" android:visibility="invisible"/>
+    </RelativeLayout>
+
+
+    <fragment android:layout_width="200dp" android:layout_height="40dp"
+              android:id="@+id/f_actions"
+              android:layout_centerInParent="true" android:name="com.example.mtg_screen.ActionsFragment"
+              tools:layout="@layout/action"/>
+
+    <!-- central panel-->
+    <!--<RelativeLayout-->
+    <!--android:layout_width="200dp"-->
+    <!--android:layout_height="50dp" android:layout_alignParentLeft="false"-->
+    <!--android:background="@android:drawable/bottom_bar" android:id="@+id/panel_actions"-->
+    <!--android:layout_centerInParent="true">-->
+
+    <!--<ImageButton-->
+    <!--android:layout_width="40dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:id="@+id/scr_start"-->
+    <!--android:layout_marginLeft="32dp"-->
+    <!--android:background="@android:drawable/ic_media_play"-->
+    <!--android:layout_alignParentLeft="false" android:layout_centerInParent="true"/>-->
+    <!--</RelativeLayout>-->
+    <!--    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp" android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+            android:background="@android:drawable/bottom_bar" android:id="@+id/panel_actions">
 
         <ImageButton
                 android:layout_width="40dp"
@@ -61,42 +132,5 @@
                 android:layout_marginRight="32dp"
                 android:background="@android:drawable/ic_menu_rotate"
                 android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
-    </RelativeLayout>
-
-    <FrameLayout
-            android:id="@+id/player_2_screen"
-            android:layout_width="match_parent"
-            android:layout_height="275dp">
-
-
-    </FrameLayout>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="275dp" android:layout_marginTop="-275dp"  android:id="@+id/player_2_score">
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/scr2_minus"
-                android:background="@drawable/minus"
-                android:layout_centerVertical="true" android:layout_alignParentLeft="true"
-                android:layout_marginLeft="32dp"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="20"
-                android:layout_alignWithParentIfMissing="false"
-                android:gravity="center"
-                android:id="@+id/scr2_score"
-                android:layout_centerVertical="true" android:layout_centerHorizontal="true"
-                style="@style/main_title"/>
-
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/scr2_plus"
-                android:background="@drawable/plus"
-                android:layout_centerVertical="true" android:layout_alignParentRight="true"
-                android:layout_marginRight="32dp"/>
-    </RelativeLayout>
-</LinearLayout>
+    </RelativeLayout>-->
+</RelativeLayout>

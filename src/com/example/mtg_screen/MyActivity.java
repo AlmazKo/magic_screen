@@ -69,13 +69,22 @@ public class MyActivity extends Activity {
     }
 
     void changeRightScreen(Player player) {
-              if (player.screenId > 2) {
-                  player.screenId = 1;
-              } else {
-                  player.screenId++;
-              }
+        if (player.screenId > 2) {
+            player.screenId = 1;
+        } else {
+            player.screenId++;
+        }
 
         showDetails(player.fragmentId, player.screenId);
+    }
+    void changeLeftScreen(Player player) {
+        if (player.screenId < 2) {
+            player.screenId = 3;
+        } else {
+            player.screenId--;
+        }
+
+        showDetails2(player.fragmentId, player.screenId);
     }
 
     void showDetails(int screenId, int slideId) {
@@ -85,7 +94,20 @@ public class MyActivity extends Activity {
 
             fg = SlideFragment.newInstance(slideId);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+            ft.setCustomAnimations(R.animator.slide_to_left_in, R.animator.slide_to_left_out);
+            ft.replace(screenId, fg);
+            ft.commit();
+        }
+    }
+
+    void showDetails2(int screenId, int slideId) {
+
+        SlideFragment fg = (SlideFragment) getFragmentManager().findFragmentById(screenId);
+        if (fg == null || fg.getIndex() != slideId) {
+
+            fg = SlideFragment.newInstance(slideId);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.animator.slide_to_right_in, R.animator.slide_to_right_out);
             ft.replace(screenId, fg);
             ft.commit();
         }
@@ -136,38 +158,57 @@ public class MyActivity extends Activity {
 //            }
 //        });
 
-        findViewById(R.id.reload).setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                init();
-            }
-        });
+//        findViewById(R.id.reload).setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                init();
+//            }
+//        });
     }
 
     void init() {
         // TODO add destroy
         player1 = new Player((TextView) findViewById(R.id.scr1_score));
-        player1.fragmentId = R.id.player_2_screen;
+        player1.fragmentId = R.id.player_1_screen;
         player1.screenId = 3;
 
 
         player2 = new Player((TextView) findViewById(R.id.scr2_score));
         player2.fragmentId = R.id.player_2_screen;
         player2.screenId = 3;
-//        player2 = new Player((TextView) findViewById(R.id.scr2_score));
 
         startTime = System.currentTimeMillis();
-        scrTimer = (TextView) findViewById(R.id.scr_timer);
-        scrTimer.setText("00:00");
+//        scrTimer = (TextView) findViewById(R.id.scr_timer);
+//        scrTimer.setText("00:00");
 
         showPlayer(player1);
-        showDetails(R.id.player_2_screen, 1);
+        showPlayer(player2);
+        showDetails(R.id.player_1_screen, 1);
+        showDetails(R.id.player_2_screen, 2);
 
-        View v = findViewById(R.id.player_2_screen);
+        View v;
+
+
+        v = findViewById(R.id.player_1_screen);
 
         v.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
 //                changeScreen(player2);
+                changeLeftScreen(player1);
+            }
+
+            @Override
+            public void onSwipeRight() {
+                changeRightScreen(player1);
+            }
+        });
+
+        v = findViewById(R.id.player_2_screen);
+        v.setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public void onSwipeLeft() {
+//                changeScreen(player2);
+                changeLeftScreen(player2);
             }
 
             @Override
@@ -175,6 +216,8 @@ public class MyActivity extends Activity {
                 changeRightScreen(player2);
             }
         });
+
+
     }
 
     private void showPlayer(Player player) {
@@ -188,7 +231,6 @@ public class MyActivity extends Activity {
 //    private void setPlayer2Score(byte score) {
 //        //  scr2Score.setText(String.valueOf(score));
 //    }
-
 
 
 }

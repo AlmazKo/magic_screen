@@ -49,6 +49,7 @@ public class SlideFragment extends Fragment {
 //        int resourceId = Resources.getSystem().getIdentifier("mounting.png", "drawable", "android");
         int resourceId = getResId("bg_" + index, R.drawable.class);
         iv.setImageResource(resourceId);
+//        iv.setMinimumHeight(310);
 
         return v;
     }
