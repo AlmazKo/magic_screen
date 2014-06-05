@@ -16,7 +16,7 @@ public class MyActivity extends Activity {
     Player player1;
     Player player2;
 
-    final static int MAX_SCREENS = 5;
+    final static int MAX_SCREENS = 4;
 
     private TextView scr1Score;
     private TextView scr2Score;
