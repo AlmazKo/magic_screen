@@ -65,6 +65,8 @@ public class MyActivity extends Activity {
 //                0, 500
 //        );
 
+        showActions();
+
     }
 
     void changeRightScreen(Player player) {
@@ -109,6 +111,19 @@ public class MyActivity extends Activity {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.animator.slide_to_right_in, R.animator.slide_to_right_out);
             ft.replace(screenId, fg);
+            ft.commit();
+        }
+    }
+
+    void showActions() {
+
+        ActionsFragment fg = (ActionsFragment) getFragmentManager().findFragmentById(R.id.f_actions);
+        if (fg == null) {
+
+            fg = ActionsFragment.newInstance(ActionsFragment.Stage.DISPOSAL);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.replace(R.id.f_actions, fg);
             ft.commit();
         }
     }

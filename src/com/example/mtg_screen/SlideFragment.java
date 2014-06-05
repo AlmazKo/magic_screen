@@ -46,10 +46,8 @@ public class SlideFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.details, container, false);
         ImageView iv = (ImageView) v.findViewById(R.id.scr_background);
-//        int resourceId = Resources.getSystem().getIdentifier("mounting.png", "drawable", "android");
         int resourceId = getResId("bg_" + index, R.drawable.class);
         iv.setImageResource(resourceId);
-//        iv.setMinimumHeight(310);
 
         return v;
     }
