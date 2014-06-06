@@ -20,9 +20,6 @@ public class MyActivity extends Activity {
 
     final static int MAX_SCREENS = 4;
 
-    private TextView scr1Score;
-    private TextView scr2Score;
-    private TextView scrTimer;
     private long startTime;
 
     final Handler h = new Handler(new Handler.Callback() {
@@ -36,7 +33,7 @@ public class MyActivity extends Activity {
 
             long millis = System.currentTimeMillis() - startTime;
             int seconds = (int) (millis / 1000);
-            int ms = (int) millis - seconds * 1000;
+            // int ms = (int) millis - seconds * 1000;
             int minutes = seconds / 60;
             seconds = seconds % 60;
 
@@ -57,15 +54,8 @@ public class MyActivity extends Activity {
 
         init();
         touchEvents();
-
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-
-//
-
-
         showActions();
-
     }
 
     void changeRightScreen(Player player) {
@@ -134,7 +124,7 @@ public class MyActivity extends Activity {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int value = (int) valueAnimator.getAnimatedValue();
-                scr1Score.setLeft(value);
+                //scr1Score.setLeft(value);
             }
         });
 
@@ -143,12 +133,6 @@ public class MyActivity extends Activity {
 
     private void touchEvents() {
 
-//        findViewById(R.id.scr_start).setOnClickListener(new Button.OnClickListener() {
-//            public void onClick(View v) {
-//                showDetails(R.id.player_2_screen, 2);
-////                   ani();
-//            }
-//        });
         findViewById(R.id.scr1_plus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 player1.add(1);
@@ -174,19 +158,6 @@ public class MyActivity extends Activity {
             }
         });
 
-//        findViewById(R.id.f_actions).setOnClickListener(new Button.OnClickListener() {
-//            public void onClick(View v) {
-//                start();
-//            }
-//
-//
-//        });
-
-//        findViewById(R.id.reload).setOnClickListener(new Button.OnClickListener() {
-//            public void onClick(View v) {
-//                init();
-//            }
-//        });
     }
 
     void start() {
@@ -224,11 +195,6 @@ public class MyActivity extends Activity {
         player2 = new Player((TextView) findViewById(R.id.scr2_score));
         player2.fragmentId = R.id.player_2_screen;
         player2.screenId = 3;
-
-
-//        scrTimer = (TextView) findViewById(R.id.scr_timer);
-//        scrTimer.setText("00:00");
-
         showPlayer(player1);
         showPlayer(player2);
         showDetails(R.id.player_1_screen, 1);
@@ -236,13 +202,11 @@ public class MyActivity extends Activity {
 
         View v;
 
-
         v = findViewById(R.id.player_1_screen);
 
         v.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
-//                changeScreen(player2);
                 changeLeftScreen(player1);
             }
 
@@ -256,7 +220,6 @@ public class MyActivity extends Activity {
         v.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
-//                changeScreen(player2);
                 changeLeftScreen(player2);
             }
 
@@ -265,21 +228,9 @@ public class MyActivity extends Activity {
                 changeRightScreen(player2);
             }
         });
-
-
     }
 
     private void showPlayer(Player player) {
         player.lifeView.setText(String.valueOf(player.life));
     }
-
-//    private void setPlayer1Score(byte score) {
-//        scr1Score.setText(String.valueOf(score));
-//    }
-//
-//    private void setPlayer2Score(byte score) {
-//        //  scr2Score.setText(String.valueOf(score));
-//    }
-
-
 }
