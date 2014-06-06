@@ -11,6 +11,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Timer;
+
 public class MyActivity extends Activity {
 
     Player player1;
@@ -26,6 +28,12 @@ public class MyActivity extends Activity {
     final Handler h = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
+
+            TextView scrTimer = (TextView) findViewById(R.id.scr_timer);
+            if (scrTimer == null) {
+                return false;
+            }
+
             long millis = System.currentTimeMillis() - startTime;
             int seconds = (int) (millis / 1000);
             int ms = (int) millis - seconds * 1000;
@@ -33,6 +41,7 @@ public class MyActivity extends Activity {
             seconds = seconds % 60;
 
             scrTimer.setText(String.format("%02d:%02d", minutes, seconds));
+
             return false;
         }
     });
@@ -53,17 +62,7 @@ public class MyActivity extends Activity {
 
 
 //
-//        Timer timer = new Timer();
-//
-//        timer.scheduleAtFixedRate(
-//                new java.util.TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        h.sendEmptyMessage(0);
-//                    }
-//                },
-//                0, 500
-//        );
+
 
         showActions();
 
@@ -199,6 +198,19 @@ public class MyActivity extends Activity {
 
         player1.life = 20;
         player2.life = 20;
+
+        startTime = System.currentTimeMillis();
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        h.sendEmptyMessage(0);
+                    }
+                },
+                1500, 500
+        );
     }
 
 
@@ -213,7 +225,7 @@ public class MyActivity extends Activity {
         player2.fragmentId = R.id.player_2_screen;
         player2.screenId = 3;
 
-        startTime = System.currentTimeMillis();
+
 //        scrTimer = (TextView) findViewById(R.id.scr_timer);
 //        scrTimer.setText("00:00");
 
