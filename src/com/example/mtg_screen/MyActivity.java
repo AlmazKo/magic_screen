@@ -16,7 +16,7 @@ public class MyActivity extends Activity {
     Stage currentStage;
 
     private static String KEY_PLAYER_1 = "player_1";
-    private static String KEY_PLAYER_2 = "player_1";
+    private static String KEY_PLAYER_2 = "player_2";
     private static String KEY_STAGE = "stage";
     private static String KEY_TIME = "time";
 
@@ -70,7 +70,8 @@ public class MyActivity extends Activity {
                 choiceStageEvents();
                 break;
             case GAME:
-                gameStageEvents();
+                stageGame();
+
                 if (!timer.isStarted) {
                     timer.start(0, 500);
                 }
@@ -84,6 +85,15 @@ public class MyActivity extends Activity {
         showActions();
     }
 
+    private void stageGame() {
+
+        findViewById(R.id.scr1_plus).setVisibility(View.VISIBLE);
+        findViewById(R.id.scr1_minus).setVisibility(View.VISIBLE);
+        findViewById(R.id.scr2_plus).setVisibility(View.VISIBLE);
+        findViewById(R.id.scr2_minus).setVisibility(View.VISIBLE);
+
+        gameStageEvents();
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -238,18 +248,13 @@ public class MyActivity extends Activity {
     void start() {
         currentStage = Stage.GAME;
 
-        findViewById(R.id.scr1_plus).setVisibility(View.VISIBLE);
-        findViewById(R.id.scr1_minus).setVisibility(View.VISIBLE);
-        findViewById(R.id.scr2_plus).setVisibility(View.VISIBLE);
-        findViewById(R.id.scr2_minus).setVisibility(View.VISIBLE);
+        stageGame();
 
         player1.life = 20;
         player2.life = 20;
 
         Timer timer = new Timer(call);
         timer.start(1500, 500);
-        gameStageEvents();
-
     }
 
 
