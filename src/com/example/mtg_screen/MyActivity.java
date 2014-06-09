@@ -4,58 +4,101 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Timer;
-
 public class MyActivity extends Activity {
+
+    enum Stage {DISPOSAL, GAME}
+
+    Stage currentStage;
+
+    private static String KEY_PLAYER_1 = "player_1";
+    private static String KEY_PLAYER_2 = "player_1";
+    private static String KEY_STAGE = "stage";
+    private static String KEY_TIME = "time";
 
     Player player1;
     Player player2;
+    Timer timer;
 
     final static int MAX_SCREENS = 4;
 
-    private long startTime;
 
-    final Handler h = new Handler(new Handler.Callback() {
+    final Timer.Callback call = new Timer.Callback() {
         @Override
-        public boolean handleMessage(Message msg) {
+        public void handle(long passedTimeMs) {
 
             TextView scrTimer = (TextView) findViewById(R.id.scr_timer);
             if (scrTimer == null) {
-                return false;
+                return;
             }
 
-            long millis = System.currentTimeMillis() - startTime;
-            int seconds = (int) (millis / 1000);
-            // int ms = (int) millis - seconds * 1000;
-            int minutes = seconds / 60;
+            int seconds = (int) (passedTimeMs / 1000);
+            final int minutes = seconds / 60;
             seconds = seconds % 60;
 
-            scrTimer.setText(String.format("%02d:%02d", minutes, seconds));
+            if (passedTimeMs == 0) {
+                scrTimer.setText("00:00");
+            }   else {
+                scrTimer.setText(String.format("%02d:%02d", minutes, seconds));
+            }
 
-            return false;
         }
-    });
+    };
 
 
     /**
      * Called when the activity is first created.
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
         setContentView(R.layout.main);
 
-        init();
-        touchEvents();
+
+        if (state != null) {
+            restoreState(state);
+        } else {
+            init();
+        }
+
+        switch (currentStage) {
+            case DISPOSAL:
+                choiceStageEvents();
+                break;
+            case GAME:
+                gameStageEvents();
+                if (!timer.isStarted) {
+                    timer.start(0, 500);
+                }
+
+        }
+
+        show();
+
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         showActions();
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable(KEY_PLAYER_1, player1);
+        outState.putSerializable(KEY_PLAYER_2, player2);
+        outState.putString(KEY_STAGE, currentStage.toString());
+
+        if (timer != null) {
+            outState.putLong(KEY_TIME, timer.stop());
+        } else {
+            outState.putLong(KEY_TIME, 0);
+        }
+
     }
 
     void changeRightScreen(Player player) {
@@ -109,7 +152,7 @@ public class MyActivity extends Activity {
         ActionsFragment fg = (ActionsFragment) getFragmentManager().findFragmentById(R.id.f_actions);
         if (fg == null) {
 
-            fg = ActionsFragment.newInstance(ActionsFragment.Stage.DISPOSAL);
+            fg = ActionsFragment.newInstance(Stage.DISPOSAL);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.replace(R.id.f_actions, fg);
@@ -131,7 +174,7 @@ public class MyActivity extends Activity {
         anim.start();
     }
 
-    private void touchEvents() {
+    private void gameStageEvents() {
 
         findViewById(R.id.scr1_plus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -160,46 +203,8 @@ public class MyActivity extends Activity {
 
     }
 
-    void start() {
 
-        findViewById(R.id.scr1_plus).setVisibility(View.VISIBLE);
-        findViewById(R.id.scr1_minus).setVisibility(View.VISIBLE);
-        findViewById(R.id.scr2_plus).setVisibility(View.VISIBLE);
-        findViewById(R.id.scr2_minus).setVisibility(View.VISIBLE);
-
-        player1.life = 20;
-        player2.life = 20;
-
-        startTime = System.currentTimeMillis();
-        Timer timer = new Timer();
-
-        timer.scheduleAtFixedRate(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        h.sendEmptyMessage(0);
-                    }
-                },
-                1500, 500
-        );
-    }
-
-
-    void init() {
-        // TODO add destroy
-        player1 = new Player((TextView) findViewById(R.id.scr1_score));
-        player1.fragmentId = R.id.player_1_screen;
-        player1.screenId = 3;
-
-
-        player2 = new Player((TextView) findViewById(R.id.scr2_score));
-        player2.fragmentId = R.id.player_2_screen;
-        player2.screenId = 3;
-        showPlayer(player1);
-        showPlayer(player2);
-        showDetails(R.id.player_1_screen, 1);
-        showDetails(R.id.player_2_screen, 2);
-
+    private void choiceStageEvents() {
         View v;
 
         v = findViewById(R.id.player_1_screen);
@@ -230,7 +235,58 @@ public class MyActivity extends Activity {
         });
     }
 
+    void start() {
+        currentStage = Stage.GAME;
+
+        findViewById(R.id.scr1_plus).setVisibility(View.VISIBLE);
+        findViewById(R.id.scr1_minus).setVisibility(View.VISIBLE);
+        findViewById(R.id.scr2_plus).setVisibility(View.VISIBLE);
+        findViewById(R.id.scr2_minus).setVisibility(View.VISIBLE);
+
+        player1.life = 20;
+        player2.life = 20;
+
+        Timer timer = new Timer(call);
+        timer.start(1500, 500);
+        gameStageEvents();
+
+    }
+
+
+    private void restoreState(Bundle state) {
+        player1 = (Player) state.getSerializable(KEY_PLAYER_1);
+        player2 = (Player) state.getSerializable(KEY_PLAYER_2);
+        currentStage = Stage.valueOf(state.getString(KEY_STAGE));
+        timer = new Timer(call, state.getLong(KEY_TIME));
+    }
+
+
+    private void init() {
+
+        currentStage = Stage.DISPOSAL;
+        // TODO add destroy
+        player1 = new Player(R.id.scr1_score);
+        player1.fragmentId = R.id.player_1_screen;
+        player1.screenId = 3;
+
+
+        player2 = new Player(R.id.scr2_score);
+        player2.fragmentId = R.id.player_2_screen;
+        player2.screenId = 3;
+    }
+
+
+    void show() {
+
+        showPlayer(player1);
+        showPlayer(player2);
+        showDetails(player1.fragmentId, player1.screenId);
+        showDetails(player2.fragmentId, player2.screenId);
+
+    }
+
     private void showPlayer(Player player) {
-        player.lifeView.setText(String.valueOf(player.life));
+        TextView tw = (TextView) findViewById(player.lifeViewId);
+        tw.setText(String.valueOf(player.life));
     }
 }

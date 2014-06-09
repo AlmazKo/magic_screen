@@ -7,12 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mtg_screen.MyActivity.Stage;
 /**
  * @author Almazko
  */
 public class ActionsFragment extends Fragment {
-
-    enum Stage {DISPOSAL, GAME}
 
     private Stage state;
     private View vs;

@@ -1,20 +1,20 @@
 package com.example.mtg_screen;
 
-import android.widget.TextView;
+import java.io.Serializable;
 
 /**
  * @author Almazko
  */
-public class Player {
+public class Player implements Serializable {
     final static int DEFAULT_LIFE = 20;
 
     int life = DEFAULT_LIFE;
     int screenId;
     int fragmentId;
-    TextView lifeView;
+    int lifeViewId;
 
-    public Player(TextView lifeView) {
-        this.lifeView = lifeView;
+    public Player(int lifeViewId) {
+        this.lifeViewId = lifeViewId;
     }
 
     public void damage(int value) {

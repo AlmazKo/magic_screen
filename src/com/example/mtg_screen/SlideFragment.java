@@ -37,13 +37,14 @@ public class SlideFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle b = getArguments();
         index = b.getInt(INDEX);
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(INDEX)) {
             index = savedInstanceState.getInt(INDEX);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.details, container, false);
         ImageView iv = (ImageView) v.findViewById(R.id.scr_background);
         int resourceId = getResId("bg_" + index, R.drawable.class);
@@ -52,6 +53,11 @@ public class SlideFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(INDEX, index);
+        super.onSaveInstanceState(outState);
+    }
 
     public static SlideFragment newInstance(int i) {
 
