@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mtg_screen.MyActivity.Stage;
+
 /**
  * @author Almazko
  */
@@ -31,32 +32,96 @@ public class ActionsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v;
-        if (state == Stage.DISPOSAL) {
-            v = inflater.inflate(R.layout.panel_actions_start, container, false);
-            View vStartImage = v.findViewById(R.id.panel_actions_btn_start);
+        switch (state) {
+            case DISPOSAL:
+                return onDisposalStage(inflater, container, savedInstanceState);
 
-            View.OnClickListener listener = new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    MyActivity activity = (MyActivity) getActivity();
-                    if (activity != null) {
-                        activity.start();
-                        fade();
+            case GAME:
+                return onGame(inflater, container, savedInstanceState);
 
-                    }
-                }
-            };
-
-            v.setOnClickListener(listener);
-            vStartImage.setOnClickListener(listener);
-        } else {
-            v = inflater.inflate(R.layout.panel_actions_game, container, false);
+            case PAUSE:
+                return onPause(inflater, container, savedInstanceState);
+            default:
+                return null;
         }
+    }
 
-        vs =v;
+    private View onDisposalStage(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v;
+        v = inflater.inflate(R.layout.panel_actions_start, container, false);
+        View vStartImage = v.findViewById(R.id.panel_actions_btn_start);
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyActivity activity = (MyActivity) getActivity();
+                if (activity != null) {
+                    activity.start();
+                    transition(Stage.GAME);
+                }
+            }
+        };
+
+        v.setOnClickListener(listener);
+        vStartImage.setOnClickListener(listener);
+
+
         return v;
     }
+
+    private View onGame(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v;
+        v = inflater.inflate(R.layout.panel_actions_game, container, false);
+
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyActivity activity = (MyActivity) getActivity();
+                if (activity != null) {
+                    activity.pause();
+                    transition(Stage.PAUSE);
+
+                }
+            }
+        };
+
+        v.setOnClickListener(listener);
+
+        return v;
+    }
+
+
+    private View onPause(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View pauseView = inflater.inflate(R.layout.panel_actions_pause, container, false);
+        View btnResume = pauseView.findViewById(R.id.panel_actions_btn_start);
+        View btnRestart = pauseView.findViewById(R.id.panel_actions_btn_restart);
+
+        btnResume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyActivity activity = (MyActivity) getActivity();
+                if (activity != null) {
+                    activity.resume();
+                    transition(Stage.GAME);
+                }
+            }
+        });
+
+        btnRestart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyActivity activity = (MyActivity) getActivity();
+                if (activity != null) {
+                    activity.reset();
+                    transition(Stage.DISPOSAL);
+                }
+            }
+        });
+
+        return pauseView;
+    }
+
 
     public static ActionsFragment newInstance(Stage stage) {
 
@@ -68,8 +133,8 @@ public class ActionsFragment extends Fragment {
         return sf;
     }
 
-    void fade() {
-        ActionsFragment fg = newInstance(Stage.GAME);
+    void transition(Stage stage) {
+        ActionsFragment fg = newInstance(stage);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
         ft.replace(R.id.f_actions, fg);

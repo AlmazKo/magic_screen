@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class MyActivity extends Activity {
 
-    enum Stage {DISPOSAL, GAME}
+    enum Stage {DISPOSAL, GAME, PAUSE}
 
     Stage currentStage;
 
@@ -25,7 +25,6 @@ public class MyActivity extends Activity {
     Timer timer;
 
     final static int MAX_SCREENS = 4;
-
 
     final Timer.Callback call = new Timer.Callback() {
         @Override
@@ -42,10 +41,9 @@ public class MyActivity extends Activity {
 
             if (passedTimeMs == 0) {
                 scrTimer.setText("00:00");
-            }   else {
+            } else {
                 scrTimer.setText(String.format("%02d:%02d", minutes, seconds));
             }
-
         }
     };
 
@@ -58,7 +56,6 @@ public class MyActivity extends Activity {
         super.onCreate(state);
         setContentView(R.layout.main);
 
-
         if (state != null) {
             restoreState(state);
         } else {
@@ -67,32 +64,48 @@ public class MyActivity extends Activity {
 
         switch (currentStage) {
             case DISPOSAL:
-                choiceStageEvents();
+                stageDisposal();
                 break;
             case GAME:
                 stageGame();
-
-                if (!timer.isStarted) {
-                    timer.start(0, 500);
-                }
-
         }
 
-        show();
-
+        showPlayers();
+        showActions();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        showActions();
     }
 
     private void stageGame() {
 
+        currentStage = Stage.GAME;
+
+        removeChoiceStageEvents();
+        gameStageEvents();
+
+        showGameViews();
+
+        if (timer == null) {
+            timer = new Timer(call);
+            timer.start(1500, 500);
+
+        } else if (!timer.isStarted) {
+            timer.start(0, 500);
+        }
+    }
+
+    private void showGameViews() {
         findViewById(R.id.scr1_plus).setVisibility(View.VISIBLE);
         findViewById(R.id.scr1_minus).setVisibility(View.VISIBLE);
         findViewById(R.id.scr2_plus).setVisibility(View.VISIBLE);
         findViewById(R.id.scr2_minus).setVisibility(View.VISIBLE);
+    }
 
-        gameStageEvents();
+    private void hideGameViews() {
+        findViewById(R.id.scr1_plus).setVisibility(View.INVISIBLE);
+        findViewById(R.id.scr1_minus).setVisibility(View.INVISIBLE);
+        findViewById(R.id.scr2_plus).setVisibility(View.INVISIBLE);
+        findViewById(R.id.scr2_minus).setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -213,7 +226,6 @@ public class MyActivity extends Activity {
 
     }
 
-
     private void choiceStageEvents() {
         View v;
 
@@ -245,18 +257,41 @@ public class MyActivity extends Activity {
         });
     }
 
-    void start() {
-        currentStage = Stage.GAME;
+    private void removeChoiceStageEvents() {
+        View v;
 
-        stageGame();
+        v = findViewById(R.id.player_1_screen);
+        v.setOnTouchListener(null);
 
-        player1.life = 20;
-        player2.life = 20;
-
-        Timer timer = new Timer(call);
-        timer.start(1500, 500);
+        v = findViewById(R.id.player_2_screen);
+        v.setOnTouchListener(null);
     }
 
+    private void stageDisposal() {
+        currentStage = Stage.DISPOSAL;
+
+        hideGameViews();
+        choiceStageEvents();
+    }
+
+    void start() {
+        stageGame();
+    }
+
+    void resume() {
+
+        timer = new Timer(call, timer.time);
+        timer.start(0, 500);
+
+        stageGame();
+    }
+
+    public void pause() {
+        if (timer != null) {
+            timer.stop();
+        }
+
+    }
 
     private void restoreState(Bundle state) {
         player1 = (Player) state.getSerializable(KEY_PLAYER_1);
@@ -265,6 +300,24 @@ public class MyActivity extends Activity {
         timer = new Timer(call, state.getLong(KEY_TIME));
     }
 
+    void reset() {
+
+        final int prevScreenIdPlayer1 = player1.screenId;
+        final int prevScreenIdPlayer2 = player2.screenId;
+
+        player1 = new Player(R.id.scr1_score);
+        player1.fragmentId = R.id.player_1_screen;
+        player1.screenId = prevScreenIdPlayer1;
+
+        player2 = new Player(R.id.scr2_score);
+        player2.fragmentId = R.id.player_2_screen;
+        player2.screenId = prevScreenIdPlayer2;
+
+        timer.stop();
+        timer = null;
+        stageDisposal();
+        showPlayers();
+    }
 
     private void init() {
 
@@ -272,7 +325,7 @@ public class MyActivity extends Activity {
         // TODO add destroy
         player1 = new Player(R.id.scr1_score);
         player1.fragmentId = R.id.player_1_screen;
-        player1.screenId = 3;
+        player1.screenId = 2;
 
 
         player2 = new Player(R.id.scr2_score);
@@ -281,13 +334,12 @@ public class MyActivity extends Activity {
     }
 
 
-    void show() {
+    void showPlayers() {
 
         showPlayer(player1);
         showPlayer(player2);
         showDetails(player1.fragmentId, player1.screenId);
         showDetails(player2.fragmentId, player2.screenId);
-
     }
 
     private void showPlayer(Player player) {
