@@ -82,12 +82,12 @@
 
     <FrameLayout android:layout_width="150dp" android:layout_height="70dp"
                  android:id="@+id/f_actions"
-                 android:layout_centerInParent="true" android:name="com.example.mtg_screen.ActionsFragment"
+                 android:layout_centerInParent="true" android:name="com.github.almazko.magic_screen.ActionsFragment"
                  tools:layout="@layout/action"/>
 
 <!--    <fragment android:layout_width="200dp" android:layout_height="70dp"
               android:id="@+id/f_actions"
-              android:layout_centerInParent="true" android:name="com.example.mtg_screen.ActionsFragment"
+              android:layout_centerInParent="true" android:name="com.github.almazko.magic_screen.ActionsFragment"
               tools:layout="@layout/action"/>-->
 
     <!-- central panel-->

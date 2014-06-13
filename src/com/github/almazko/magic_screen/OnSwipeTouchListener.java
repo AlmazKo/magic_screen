@@ -1,4 +1,4 @@
-package com.example.mtg_screen;
+package com.github.almazko.magic_screen;
 
 /**
  * @author Almazko

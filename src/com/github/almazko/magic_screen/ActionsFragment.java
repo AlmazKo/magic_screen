@@ -1,4 +1,4 @@
-package com.example.mtg_screen;
+package com.github.almazko.magic_screen;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mtg_screen.MyActivity.Stage;
+import com.github.almazko.magic_screen.MyActivity.Stage;
 
 /**
  * @author Almazko

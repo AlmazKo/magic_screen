@@ -1,4 +1,4 @@
-package com.example.mtg_screen;
+package com.github.almazko.magic_screen;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -189,7 +189,7 @@ public class MyActivity extends Activity {
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int value = (int) valueAnimator.getAnimatedValue();
+              //  int value = (int) valueAnimator.getAnimatedValue();
                 //scr1Score.setLeft(value);
             }
         });
