@@ -80,6 +80,10 @@ public class MyActivity extends Activity {
 
         playerClick = MediaPlayer.create(this, R.raw.sound_quick1);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        if (!isLandscape()) {
+            rotatePlayer1Screen();
+        }
     }
 
     private void stageGame() {
@@ -377,6 +381,11 @@ public class MyActivity extends Activity {
 
     boolean isLandscape() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+
+    void rotatePlayer1Screen() {
+        findViewById(R.id.player_1_score).setRotation(180);
     }
 
     static boolean isRight(final View v, final MotionEvent e) {
