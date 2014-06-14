@@ -97,7 +97,7 @@ public class MyActivity extends Activity {
 
         if (timer == null) {
             timer = new Timer(call);
-            timer.start(1500, 500);
+            timer.start(0, 500);
 
         } else if (!timer.isStarted) {
             timer.start(0, 500);
@@ -134,27 +134,27 @@ public class MyActivity extends Activity {
 
     }
 
-    void changeRightScreen(Player player) {
+    void changeScreenToRight(final Player player) {
         if (player.screenId >= MAX_SCREENS) {
             player.screenId = 1;
         } else {
             player.screenId++;
         }
 
-        showDetails(player.fragmentId, player.screenId);
+        slideToRight(player.fragmentId, player.screenId);
     }
 
-    void changeLeftScreen(Player player) {
+    void changeScreenToLeft(final Player player) {
         if (player.screenId <= 1) {
             player.screenId = MAX_SCREENS;
         } else {
             player.screenId--;
         }
 
-        showDetails2(player.fragmentId, player.screenId);
+        slideToLeft(player.fragmentId, player.screenId);
     }
 
-    void showDetails(int screenId, int slideId) {
+    void slideToRight(final int screenId, final int slideId) {
 
         SlideFragment fg = (SlideFragment) getFragmentManager().findFragmentById(screenId);
         if (fg == null || fg.getIndex() != slideId) {
@@ -167,7 +167,7 @@ public class MyActivity extends Activity {
         }
     }
 
-    void showDetails2(int screenId, int slideId) {
+    void slideToLeft(int screenId, int slideId) {
 
         SlideFragment fg = (SlideFragment) getFragmentManager().findFragmentById(screenId);
         if (fg == null || fg.getIndex() != slideId) {
@@ -264,12 +264,12 @@ public class MyActivity extends Activity {
         v.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
-                changeLeftScreen(player1);
+                changeScreenToLeft(player1);
             }
 
             @Override
             public void onSwipeRight() {
-                changeRightScreen(player1);
+                changeScreenToRight(player1);
             }
         });
 
@@ -277,24 +277,19 @@ public class MyActivity extends Activity {
         v.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
-                changeLeftScreen(player2);
+                changeScreenToLeft(player2);
             }
 
             @Override
             public void onSwipeRight() {
-                changeRightScreen(player2);
+                changeScreenToRight(player2);
             }
         });
     }
 
     private void removeChoiceStageEvents() {
-        View v;
-
-        v = findViewById(R.id.player_1_screen);
-        v.setOnTouchListener(null);
-
-        v = findViewById(R.id.player_2_screen);
-        v.setOnTouchListener(null);
+        findViewById(R.id.player_1_screen).setOnTouchListener(null);
+        findViewById(R.id.player_2_screen).setOnTouchListener(null);
     }
 
     private void stageDisposal() {
@@ -310,8 +305,7 @@ public class MyActivity extends Activity {
     }
 
     void resume() {
-
-        timer = new Timer(call, timer.time);
+        timer = new Timer(call, timer.stop());
         timer.start(0, 500);
 
         stageGame();
@@ -328,7 +322,10 @@ public class MyActivity extends Activity {
         player1 = (Player) state.getSerializable(KEY_PLAYER_1);
         player2 = (Player) state.getSerializable(KEY_PLAYER_2);
         currentStage = Stage.valueOf(state.getString(KEY_STAGE));
-        timer = new Timer(call, state.getLong(KEY_TIME));
+
+        if (timer == null) {
+            timer = new Timer(call, state.getLong(KEY_TIME));
+        }
     }
 
     void reset() {
@@ -346,6 +343,7 @@ public class MyActivity extends Activity {
 
         timer.stop();
         timer = null;
+
         stageDisposal();
         showPlayers();
     }
@@ -366,11 +364,10 @@ public class MyActivity extends Activity {
 
 
     void showPlayers() {
-
         showPlayer(player1);
         showPlayer(player2);
-        showDetails(player1.fragmentId, player1.screenId);
-        showDetails(player2.fragmentId, player2.screenId);
+        slideToRight(player1.fragmentId, player1.screenId);
+        slideToLeft(player2.fragmentId, player2.screenId);
     }
 
     private void showPlayer(Player player) {
@@ -378,11 +375,9 @@ public class MyActivity extends Activity {
         tw.setText(String.valueOf(player.life));
     }
 
-
     boolean isLandscape() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
-
 
     void rotatePlayer1Screen() {
         findViewById(R.id.player_1_score).setRotation(180);
