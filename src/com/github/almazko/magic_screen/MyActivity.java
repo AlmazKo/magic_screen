@@ -3,11 +3,12 @@ package com.github.almazko.magic_screen;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class MyActivity extends Activity {
@@ -194,7 +195,7 @@ public class MyActivity extends Activity {
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-              //  int value = (int) valueAnimator.getAnimatedValue();
+                //  int value = (int) valueAnimator.getAnimatedValue();
                 //scr1Score.setLeft(value);
             }
         });
@@ -204,35 +205,43 @@ public class MyActivity extends Activity {
 
     private void gameStageEvents() {
 
-        findViewById(R.id.scr1_plus).setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
+        findViewById(R.id.player_1_score).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent e) {
+
+                if ((isLandscape() && isUp(v, e)) || (!isLandscape() && isRight(v, e))) {
+                    player1.add(1);
+                } else {
+                    player1.damage(1);
+                }
+
                 playClick();
-                player1.add(1);
                 showPlayer(player1);
-            }
-        });
-        findViewById(R.id.scr1_minus).setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                playClick();
-                player1.damage(1);
-                showPlayer(player1);
-            }
-        });
-        findViewById(R.id.scr2_plus).setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                playClick();
-                player2.add(1);
-                showPlayer(player2);
-            }
-        });
-        findViewById(R.id.scr2_minus).setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                playClick();
-                player2.damage(1);
-                showPlayer(player2);
+
+                return false;
             }
         });
 
+        findViewById(R.id.player_2_score).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent e) {
+                if ((isLandscape() && isUp(v, e)) || (!isLandscape() && isRight(v, e))) {
+                    player2.add(1);
+                } else {
+                    player2.damage(1);
+                }
+
+                playClick();
+                showPlayer(player2);
+
+                return false;
+            }
+        });
+    }
+
+    private void removeGameStageEvents() {
+        findViewById(R.id.player_1_score).setOnTouchListener(null);
+        findViewById(R.id.player_2_score).setOnTouchListener(null);
     }
 
     private void playClick() {
@@ -288,6 +297,7 @@ public class MyActivity extends Activity {
         currentStage = Stage.DISPOSAL;
 
         hideGameViews();
+        removeGameStageEvents();
         choiceStageEvents();
     }
 
@@ -363,4 +373,18 @@ public class MyActivity extends Activity {
         TextView tw = (TextView) findViewById(player.lifeViewId);
         tw.setText(String.valueOf(player.life));
     }
+
+
+    boolean isLandscape() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    static boolean isRight(final View v, final MotionEvent e) {
+        return e.getX() > v.getWidth() / 2;
+    }
+
+    static boolean isUp(final View v, final MotionEvent e) {
+        return e.getY() < v.getHeight() / 2;
+    }
 }
+

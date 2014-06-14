@@ -22,65 +22,51 @@
     <RelativeLayout
             android:layout_width="320dp"
             android:layout_height="fill_parent" android:id="@+id/player_1_score" android:layout_alignParentLeft="true">
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/scr1_minus"
-                android:background="@drawable/minus"
-                android:layout_marginTop="35dp" android:layout_below="@+id/scr1_score"
-                android:layout_centerHorizontal="true" android:visibility="invisible"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="20"
-                android:gravity="center"
-                android:id="@+id/scr1_score"
-                android:layout_centerVertical="true" android:layout_centerHorizontal="true"
-                style="@style/main_title"/>
 
 
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/scr1_plus"
-                android:background="@drawable/plus"
-                android:layout_marginTop="35dp" android:layout_alignParentTop="true"
-                android:layout_alignLeft="@+id/scr1_minus" android:visibility="invisible"/>
+        <TextView android:id="@+id/scr1_plus"
+                  android:text="+" style="@style/plus_minus"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+                  android:layout_marginTop="50dp"/>
+
+        <TextView android:id="@+id/scr1_score"
+                  android:text="20" style="@style/main_title"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
+
+        <TextView android:id="@+id/scr1_minus"
+                  android:text="−" style="@style/plus_minus"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_marginTop="50dp" android:layout_below="@+id/scr1_score"
+                  android:layout_alignLeft="@+id/scr1_plus"/>
+
     </RelativeLayout>
 
     <RelativeLayout
             android:layout_width="320dp"
             android:layout_height="fill_parent" android:id="@+id/player_2_score"
             android:layout_alignParentBottom="false" android:layout_alignParentRight="true">
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/scr2_minus"
-                android:background="@drawable/minus"
-                android:layout_below="@+id/scr2_score" android:layout_alignLeft="@+id/scr2_plus"
-                android:layout_marginTop="35dp" android:visibility="invisible"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="20"
-                android:layout_alignWithParentIfMissing="false"
-                android:gravity="center"
-                android:id="@+id/scr2_score"
-                android:layout_centerVertical="true" android:layout_centerHorizontal="true"
-                style="@style/main_title"/>
+        <TextView android:id="@+id/scr2_plus"
+                  android:text="+" style="@style/plus_minus"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+                  android:layout_marginTop="50dp"/>
 
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/scr2_plus"
-                android:background="@drawable/plus"
-                android:layout_above="@+id/scr2_score" android:layout_centerHorizontal="true"
-                android:layout_marginBottom="35dp" android:visibility="invisible"/>
+        <TextView android:id="@+id/scr2_score"
+                  android:text="20" style="@style/main_title"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
+
+        <TextView android:id="@+id/scr2_minus"
+                  android:text="−" style="@style/plus_minus"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_marginTop="50dp" android:layout_below="@+id/scr2_score"
+                  android:layout_alignLeft="@+id/scr2_plus"/>
     </RelativeLayout>
 
     <ImageView
-            android:layout_width="5dp"
+            android:layout_width="1dp"
             android:layout_height="fill_parent"
             android:id="@+id/imageView" android:layout_alignParentBottom="false"
             android:layout_centerInParent="true" android:background="#ff777777"/>
