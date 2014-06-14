@@ -3,6 +3,7 @@ package com.github.almazko.magic_screen;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,6 +20,9 @@ public class MyActivity extends Activity {
     private static String KEY_PLAYER_2 = "player_2";
     private static String KEY_STAGE = "stage";
     private static String KEY_TIME = "time";
+
+
+    private MediaPlayer playerClick;
 
     Player player1;
     Player player2;
@@ -73,6 +77,7 @@ public class MyActivity extends Activity {
         showPlayers();
         showActions();
 
+        playerClick = MediaPlayer.create(this, R.raw.sound_quick1);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
@@ -201,29 +206,41 @@ public class MyActivity extends Activity {
 
         findViewById(R.id.scr1_plus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
+                playClick();
                 player1.add(1);
                 showPlayer(player1);
             }
         });
         findViewById(R.id.scr1_minus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
+                playClick();
                 player1.damage(1);
                 showPlayer(player1);
             }
         });
         findViewById(R.id.scr2_plus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
+                playClick();
                 player2.add(1);
                 showPlayer(player2);
             }
         });
         findViewById(R.id.scr2_minus).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
+                playClick();
                 player2.damage(1);
                 showPlayer(player2);
             }
         });
 
+    }
+
+    private void playClick() {
+        if (playerClick.isPlaying()) {
+            playerClick.seekTo(0);
+        } else {
+            playerClick.start();
+        }
     }
 
     private void choiceStageEvents() {
