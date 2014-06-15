@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Magic screen</string>
-    <string name="descr_swipe">Swipe for select background</string>
+    <string name="descr_swipe">Swipe to select the background</string>
 </resources>

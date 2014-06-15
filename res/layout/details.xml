@@ -10,6 +10,6 @@
             android:layout_height="fill_parent"
             android:id="@+id/scr_background"
             android:background="@android:drawable/bottom_bar"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             />
 </LinearLayout>

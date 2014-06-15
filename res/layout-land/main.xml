@@ -54,7 +54,6 @@
         <TextView android:id="@+id/player_1_description"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:textAppearance="?android:attr/textAppearanceSmall"
                   android:text="@string/descr_swipe"
                   android:layout_alignParentBottom="true"
                   android:layout_centerHorizontal="true" style="@style/description"/>
@@ -84,7 +83,6 @@
         <TextView android:id="@+id/player_2_description"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:textAppearance="?android:attr/textAppearanceSmall"
                   android:text="@string/descr_swipe"
                   android:layout_alignParentBottom="true"
                   android:layout_centerHorizontal="true" style="@style/description"/>
@@ -100,5 +98,10 @@
                  android:id="@+id/f_actions"
                  android:layout_centerInParent="true" android:name="com.github.almazko.magic_screen.ActionsFragment"
                  tools:layout="@layout/action"/>
+
+    <FrameLayout android:id="@+id/full_screen"
+                 android:alpha="0"
+                 android:layout_width="fill_parent" android:layout_height="fill_parent">
+    </FrameLayout>
 
 </RelativeLayout>
