@@ -5,19 +5,29 @@
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
         android:clickable="true">
 
-
-    <FrameLayout
-            android:id="@+id/player_1_screen"
+    <FrameLayout android:id="@+id/player_1_screen"
             android:layout_width="320dp"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true" android:layout_alignParentTop="false" />
 
-    <FrameLayout
-            android:id="@+id/player_2_screen"
+    <FrameLayout android:id="@+id/player_effect_1_screen"
+                 android:layout_width="320dp"
+                 android:layout_height="fill_parent"
+                 android:layout_alignParentLeft="true" android:layout_alignParentTop="false"
+                 android:alpha="0"/>
+
+    <FrameLayout android:id="@+id/player_2_screen"
             android:layout_width="320dp"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="false" android:layout_alignParentBottom="false"
             android:layout_alignParentRight="true"/>
+
+    <FrameLayout android:id="@+id/player_effect_2_screen"
+                 android:layout_width="320dp"
+                 android:layout_height="fill_parent"
+                 android:layout_alignParentLeft="false" android:layout_alignParentBottom="false"
+                 android:layout_alignParentRight="true"
+                 android:alpha="0"/>
 
     <RelativeLayout
             android:layout_width="320dp"

@@ -1,5 +1,6 @@
 package com.github.almazko.magic_screen;
 
+import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -193,17 +194,30 @@ public class MyActivity extends Activity {
         }
     }
 
-    void ani() {
-        ValueAnimator anim = ValueAnimator.ofInt(10, 200);
-        anim.setDuration(5000);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    void notice(final View v, final int bgId) {
+        v.setBackgroundResource(bgId);
+
+        ValueAnimator appear = ValueAnimator.ofFloat(0, 0.3f);
+        appear.setDuration(100);
+        appear.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //  int value = (int) valueAnimator.getAnimatedValue();
-                //scr1Score.setLeft(value);
+                v.setAlpha((Float) valueAnimator.getAnimatedValue());
             }
         });
 
+        ValueAnimator disappear = ValueAnimator.ofFloat(0.3f, 0);
+        disappear.setDuration(100);
+        disappear.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                v.setAlpha((Float) valueAnimator.getAnimatedValue());
+            }
+        });
+
+
+        AnimatorSet anim = new AnimatorSet();
+        anim.play(appear).before(disappear);
         anim.start();
     }
 
@@ -213,10 +227,18 @@ public class MyActivity extends Activity {
             @Override
             public boolean onTouch(View v, MotionEvent e) {
 
+                View playerScreen = findViewById(R.id.player_effect_1_screen);
+
                 if ((isLandscape() && isUp(v, e)) || (!isLandscape() && isRight(v, e))) {
                     player1.add(1);
+                    notice(playerScreen, R.color.notice);
                 } else {
                     player1.damage(1);
+                    if (player1.life > 0) {
+                        notice(playerScreen, R.color.notice);
+                    } else {
+                        notice(playerScreen, R.color.warning);
+                    }
                 }
 
                 playClick();
@@ -229,10 +251,19 @@ public class MyActivity extends Activity {
         findViewById(R.id.player_2_score).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent e) {
+
+                View playerScreen = findViewById(R.id.player_effect_2_screen);
+
                 if ((isLandscape() && isUp(v, e)) || (!isLandscape() && isRight(v, e))) {
                     player2.add(1);
+                    notice(playerScreen, R.color.notice);
                 } else {
                     player2.damage(1);
+                    if (player2.life > 0) {
+                        notice(playerScreen, R.color.notice);
+                    } else {
+                        notice(playerScreen, R.color.warning);
+                    }
                 }
 
                 playClick();

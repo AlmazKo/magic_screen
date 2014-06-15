@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="notice" type="color">#ff000000</item>
+    <item name="warning" type="color">#ffff1513</item>
+</resources>
