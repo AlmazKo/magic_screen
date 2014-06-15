@@ -30,7 +30,7 @@ public class MyActivity extends Activity {
     Player player2;
     Timer timer;
 
-    final static int MAX_SCREENS = 4;
+    final static int MAX_SCREENS = 7;
 
     final Timer.Callback call = new Timer.Callback() {
         @Override
