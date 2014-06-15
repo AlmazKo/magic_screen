@@ -195,10 +195,14 @@ public class MyActivity extends Activity {
     }
 
     void notice(final View v, final int bgId) {
+        blink(v, bgId, 0.15f, 150);
+    }
+
+    void blink(final View v, final int bgId, final float blinkOpacity, final int ms) {
         v.setBackgroundResource(bgId);
 
-        ValueAnimator appear = ValueAnimator.ofFloat(0, 0.3f);
-        appear.setDuration(100);
+        ValueAnimator appear = ValueAnimator.ofFloat(0, blinkOpacity);
+        appear.setDuration(ms);
         appear.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -206,15 +210,14 @@ public class MyActivity extends Activity {
             }
         });
 
-        ValueAnimator disappear = ValueAnimator.ofFloat(0.3f, 0);
-        disappear.setDuration(100);
+        ValueAnimator disappear = ValueAnimator.ofFloat(blinkOpacity, 0);
+        disappear.setDuration(ms);
         disappear.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 v.setAlpha((Float) valueAnimator.getAnimatedValue());
             }
         });
-
 
         AnimatorSet anim = new AnimatorSet();
         anim.play(appear).before(disappear);
@@ -231,13 +234,13 @@ public class MyActivity extends Activity {
 
                 if ((isLandscape() && isUp(v, e)) || (!isLandscape() && isRight(v, e))) {
                     player1.add(1);
-                    notice(playerScreen, R.color.notice);
+                    notice(playerScreen, R.color.blink_notice);
                 } else {
                     player1.damage(1);
                     if (player1.life > 0) {
-                        notice(playerScreen, R.color.notice);
+                        notice(playerScreen, R.color.blink_notice);
                     } else {
-                        notice(playerScreen, R.color.warning);
+                        blink(playerScreen, R.color.blink_warning, 0.3f, 150);
                     }
                 }
 
@@ -256,13 +259,13 @@ public class MyActivity extends Activity {
 
                 if ((isLandscape() && isUp(v, e)) || (!isLandscape() && isRight(v, e))) {
                     player2.add(1);
-                    notice(playerScreen, R.color.notice);
+                    notice(playerScreen, R.color.blink_notice);
                 } else {
                     player2.damage(1);
                     if (player2.life > 0) {
-                        notice(playerScreen, R.color.notice);
+                        notice(playerScreen, R.color.blink_notice);
                     } else {
-                        notice(playerScreen, R.color.warning);
+                        blink(playerScreen, R.color.blink_warning, 0.3f, 150);
                     }
                 }
 
@@ -375,6 +378,7 @@ public class MyActivity extends Activity {
         timer.stop();
         timer = null;
 
+        blink(findViewById(R.id.full_screen), android.R.color.background_dark, 1f, 300);
         stageDisposal();
         showPlayers();
     }

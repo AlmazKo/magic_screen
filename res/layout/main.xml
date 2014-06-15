@@ -87,4 +87,7 @@
                  android:layout_centerInParent="true" android:name="com.github.almazko.magic_screen.ActionsFragment"
                  tools:layout="@layout/action"/>
 
+    <FrameLayout android:id="@+id/full_screen"
+                 android:alpha="0"
+                 android:layout_width="fill_parent" android:layout_height="fill_parent"/>
 </RelativeLayout>
