@@ -91,7 +91,7 @@ public class MyActivity extends Activity {
 
         currentStage = Stage.GAME;
 
-        removeChoiceStageEvents();
+        removeStateDisposal();
         gameStageEvents();
 
         showGameViews();
@@ -321,9 +321,12 @@ public class MyActivity extends Activity {
         });
     }
 
-    private void removeChoiceStageEvents() {
+    private void removeStateDisposal() {
         findViewById(R.id.player_1_screen).setOnTouchListener(null);
         findViewById(R.id.player_2_screen).setOnTouchListener(null);
+
+        findViewById(R.id.player_1_description).setVisibility(View.GONE);
+        findViewById(R.id.player_2_description).setVisibility(View.GONE);
     }
 
     private void stageDisposal() {
