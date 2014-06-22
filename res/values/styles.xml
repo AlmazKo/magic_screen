@@ -41,4 +41,12 @@
         <item name="android:padding">3dp</item>
     </style>
 
+    <style name="series">
+        <item name="android:textColor">#ffe5e5e5</item>
+        <item name="android:shadowColor">#ffff1513</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">5</item>
+    </style>
+
 </resources>

@@ -51,6 +51,14 @@
                   android:layout_marginTop="25dp" android:layout_below="@+id/scr1_score"
                   android:layout_alignLeft="@+id/scr1_plus"/>
 
+        <TextView android:id="@+id/player_1_series"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="0"
+                  android:layout_alignParentBottom="false"
+                  android:layout_centerHorizontal="true" style="@style/series"
+                  android:layout_below="@+id/scr1_score" android:textIsSelectable="false" android:alpha="0"/>
+
         <TextView android:id="@+id/player_1_description"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -79,6 +87,16 @@
                   android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_marginTop="25dp" android:layout_below="@+id/scr2_score"
                   android:layout_alignLeft="@+id/scr2_plus"/>
+
+
+
+        <TextView android:id="@+id/player_2_series"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="0"
+                  android:layout_alignParentBottom="false"
+                  android:layout_centerHorizontal="true" style="@style/series"
+                  android:layout_below="@+id/scr2_score" android:textIsSelectable="false" android:alpha="0"/>
 
         <TextView android:id="@+id/player_2_description"
                   android:layout_width="wrap_content"

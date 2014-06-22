@@ -6,8 +6,9 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,6 +20,7 @@ public class MyActivity extends Activity {
 
     Stage currentStage;
 
+    // rename player1 -> opponent
     private static String KEY_PLAYER_1 = "player_1";
     private static String KEY_PLAYER_2 = "player_2";
     private static String KEY_STAGE = "stage";
@@ -27,13 +29,21 @@ public class MyActivity extends Activity {
 
     private MediaPlayer playerClick;
 
+    final static long WAIT_SERIES = 1500;
+    long lastSeriesPlayer1 = 0;
+    long lastSeriesPlayer2 = 0;
+
+    long seriesPlayer1 = 0;
+    long seriesPlayer2 = 0;
+
     Player player1;
     Player player2;
     Timer timer;
+    java.util.Timer totalTimer;
 
     final static int MAX_SCREENS = 7;
 
-    final Timer.Callback call = new Timer.Callback() {
+    final Timer.Callback gameTimerCallback = new Timer.Callback() {
         @Override
         public void handle(long passedTimeMs) {
 
@@ -53,6 +63,27 @@ public class MyActivity extends Activity {
             }
         }
     };
+
+    final Handler totalTimerHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+
+            long time = System.currentTimeMillis();
+
+
+            if (seriesPlayer1 != 0 && time - lastSeriesPlayer1 > WAIT_SERIES) {
+                seriesPlayer1 = 0;
+                hideSeries((TextView) findViewById(R.id.player_1_series), 1000);
+            }
+
+            if (seriesPlayer2 != 0 && time - lastSeriesPlayer2 > WAIT_SERIES) {
+                seriesPlayer2 = 0;
+                hideSeries((TextView) findViewById(R.id.player_2_series), 1000);
+            }
+
+            return false;
+        }
+    });
 
 
     /**
@@ -80,17 +111,21 @@ public class MyActivity extends Activity {
         showPlayers();
         showActions();
 
-        Uri systemTick = Uri.parse("/system/media/audio/ui/Effect_Tick.ogg");
-        playerClick = MediaPlayer.create(this, systemTick);
-        if (playerClick == null) {
-            playerClick = MediaPlayer.create(this, R.raw.sound_tick1);
-        }
-
+        playerClick = MediaPlayer.create(this, R.raw.sound_tick1);
+        playerClick.setVolume(0.05f, 0.05f);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (!isLandscape()) {
             rotatePlayer1Screen();
         }
+
+        totalTimer = new java.util.Timer();
+        totalTimer.scheduleAtFixedRate(new java.util.TimerTask() {
+            @Override
+            public void run() {
+                totalTimerHandler.sendEmptyMessage(0);
+            }
+        }, 0, 500L);
     }
 
     private void stageGame() {
@@ -103,7 +138,7 @@ public class MyActivity extends Activity {
         showGameViews();
 
         if (timer == null) {
-            timer = new Timer(call);
+            timer = new Timer(gameTimerCallback);
             timer.start(0, 500);
 
         } else if (!timer.isStarted) {
@@ -230,25 +265,92 @@ public class MyActivity extends Activity {
         anim.start();
     }
 
+    void hideSeries(final TextView v, final int msDuration) {
+
+        final int lastTime = 300;
+        final float textSize = 20;
+
+        ValueAnimator firstHiding = ValueAnimator.ofFloat(1, 0.8f);
+        firstHiding.setDuration(msDuration - lastTime);
+        firstHiding.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                v.setAlpha((Float) valueAnimator.getAnimatedValue());
+            }
+        });
+
+
+        final int top = v.getTop();
+
+        ValueAnimator greater = ValueAnimator.ofFloat(textSize, textSize * 3);
+        greater.setDuration(msDuration - lastTime);
+        greater.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                final int offset = (int) ((Float) valueAnimator.getAnimatedValue() - textSize);
+                v.setTextSize((Float) valueAnimator.getAnimatedValue());
+                v.setPadding(0, -offset, 0, 0);
+            }
+        });
+
+        ValueAnimator secondHiding = ValueAnimator.ofFloat(0.8f, 0);
+        secondHiding.setDuration(lastTime);
+        secondHiding.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                v.setAlpha((Float) valueAnimator.getAnimatedValue());
+            }
+        });
+
+        AnimatorSet anim = new AnimatorSet();
+        anim.play(firstHiding).with(greater);
+        anim.play(greater).before(secondHiding);
+        anim.start();
+    }
+
+
     private void gameStageEvents() {
 
         findViewById(R.id.player_1_score).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent e) {
 
+                long time = System.currentTimeMillis();
+
+                if (lastSeriesPlayer1 == 0) {
+                    lastSeriesPlayer1 = time;
+                } else {
+                    if (time - lastSeriesPlayer1 > WAIT_SERIES) {
+                        seriesPlayer1 = 0;
+                    }
+                    lastSeriesPlayer1 = time;
+                }
+
                 View playerScreen = findViewById(R.id.player_effect_1_screen);
 
                 if ((isLandscape() && isUp(v, e)) || (!isLandscape() && isRight(v, e))) {
                     player1.add(1);
+                    seriesPlayer1++;
                     notice(playerScreen, R.color.blink_notice);
                 } else {
                     player1.damage(1);
+                    seriesPlayer1--;
                     if (player1.life > 0) {
                         notice(playerScreen, R.color.blink_notice);
                     } else {
                         blink(playerScreen, R.color.blink_warning, 0.3f, 150);
                     }
                 }
+
+                TextView tv = (TextView) findViewById(R.id.player_1_series);
+
+                if (seriesPlayer1 > 2 || seriesPlayer1 < -2) {
+                    tv.setAlpha(1);
+                    tv.setTextSize(20);
+                    tv.setPadding(0, 0, 0, 0);
+                }
+
+                tv.setText(String.valueOf(seriesPlayer1));
 
                 playClick();
                 showPlayer(player1);
@@ -261,19 +363,46 @@ public class MyActivity extends Activity {
             @Override
             public boolean onTouch(View v, MotionEvent e) {
 
+
+                long time = System.currentTimeMillis();
+
+                if (lastSeriesPlayer2 == 0) {
+                    lastSeriesPlayer2 = time;
+                } else {
+                    if (time - lastSeriesPlayer2 > WAIT_SERIES) {
+                        seriesPlayer2 = 0;
+                    }
+                    lastSeriesPlayer2 = time;
+                }
+
+
                 View playerScreen = findViewById(R.id.player_effect_2_screen);
 
                 if ((isLandscape() && isUp(v, e)) || (!isLandscape() && isRight(v, e))) {
                     player2.add(1);
+                    seriesPlayer2++;
                     notice(playerScreen, R.color.blink_notice);
                 } else {
                     player2.damage(1);
+                    seriesPlayer2--;
                     if (player2.life > 0) {
                         notice(playerScreen, R.color.blink_notice);
                     } else {
                         blink(playerScreen, R.color.blink_warning, 0.3f, 150);
                     }
                 }
+
+
+
+                TextView tv = (TextView) findViewById(R.id.player_2_series);
+
+                if (seriesPlayer2 > 2 || seriesPlayer2 < -2) {
+                    tv.setAlpha(1);
+                    tv.setTextSize(20);
+                    tv.setPadding(0, 0, 0, 0);
+                }
+
+                tv.setText(String.valueOf(seriesPlayer2));
 
                 playClick();
                 showPlayer(player2);
@@ -348,7 +477,7 @@ public class MyActivity extends Activity {
     }
 
     void resume() {
-        timer = new Timer(call, timer.stop());
+        timer = new Timer(gameTimerCallback, timer.stop());
         timer.start(0, 500);
 
         stageGame();
@@ -367,7 +496,7 @@ public class MyActivity extends Activity {
         currentStage = Stage.valueOf(state.getString(KEY_STAGE));
 
         if (timer == null) {
-            timer = new Timer(call, state.getLong(KEY_TIME));
+            timer = new Timer(gameTimerCallback, state.getLong(KEY_TIME));
         }
     }
 

@@ -50,12 +50,20 @@
                   android:layout_marginRight="60dp"
                   android:layout_centerVertical="true" android:layout_alignParentRight="true"/>
 
+        <TextView android:id="@+id/player_1_series"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="0"
+                  android:layout_alignParentBottom="false"
+                  android:layout_centerHorizontal="true" style="@style/series"
+                  android:layout_below="@+id/scr1_score" android:textIsSelectable="false" android:alpha="0"/>
+
         <TextView android:id="@+id/player_1_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/descr_swipe"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" style="@style/description"/>
+                android:layout_centerHorizontal="true" style="@style/description" />
     </RelativeLayout>
 
     <RelativeLayout android:id="@+id/player_2_score"
@@ -80,6 +88,14 @@
                   android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_centerVertical="true" android:layout_alignParentRight="true"
                   android:layout_marginRight="60dp"/>
+
+        <TextView android:id="@+id/player_2_series"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="0"
+                  android:layout_alignParentBottom="false"
+                  android:layout_centerHorizontal="true" style="@style/series"
+                  android:layout_below="@+id/scr2_score" android:textIsSelectable="false" android:alpha="0"/>
 
         <TextView android:id="@+id/player_2_description"
                 android:layout_width="wrap_content"
