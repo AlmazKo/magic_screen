@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -79,7 +80,12 @@ public class MyActivity extends Activity {
         showPlayers();
         showActions();
 
-        playerClick = MediaPlayer.create(this, R.raw.sound_quick1);
+        Uri systemTick = Uri.parse("/system/media/audio/ui/Effect_Tick.ogg");
+        playerClick = MediaPlayer.create(this, systemTick);
+        if (playerClick == null) {
+            playerClick = MediaPlayer.create(this, R.raw.sound_tick1);
+        }
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (!isLandscape()) {
