@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
-        android:clickable="true">
+<RelativeLayout android:id="@+id/main_view"
+                xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+                android:clickable="true">
 
     <FrameLayout android:id="@+id/player_1_screen"
-            android:layout_width="300dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true" android:layout_alignParentTop="false" />
+                 android:layout_width="300dp"
+                 android:layout_height="fill_parent"
+                 android:layout_alignParentLeft="true" android:layout_alignParentTop="false"/>
 
     <FrameLayout android:id="@+id/player_effect_1_screen"
                  android:layout_width="300dp"
@@ -17,10 +17,10 @@
                  android:alpha="0"/>
 
     <FrameLayout android:id="@+id/player_2_screen"
-            android:layout_width="300dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="false" android:layout_alignParentBottom="false"
-            android:layout_alignParentRight="true"/>
+                 android:layout_width="300dp"
+                 android:layout_height="fill_parent"
+                 android:layout_alignParentLeft="false" android:layout_alignParentBottom="false"
+                 android:layout_alignParentRight="true"/>
 
     <FrameLayout android:id="@+id/player_effect_2_screen"
                  android:layout_width="300dp"
@@ -87,7 +87,6 @@
                   android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_marginTop="25dp" android:layout_below="@+id/scr2_score"
                   android:layout_alignLeft="@+id/scr2_plus"/>
-
 
 
         <TextView android:id="@+id/player_2_series"

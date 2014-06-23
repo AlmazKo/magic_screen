@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import com.github.almazko.magic_screen.MyActivity.Stage;
@@ -46,46 +47,42 @@ public class ActionsFragment extends Fragment {
     }
 
     private View onDisposalStage(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v;
-        v = inflater.inflate(R.layout.panel_actions_start, container, false);
-        View vStartImage = v.findViewById(R.id.panel_actions_btn_start);
+        View v = inflater.inflate(R.layout.panel_actions_start, container, false);
 
-        View.OnClickListener listener = new View.OnClickListener() {
+        v.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
                 MyActivity activity = (MyActivity) getActivity();
                 if (activity != null) {
+                    activity.onTouch(view, motionEvent);
                     activity.start();
                     transition(Stage.GAME);
                 }
+                return false;
             }
-        };
-
-        v.setOnClickListener(listener);
-        vStartImage.setOnClickListener(listener);
-
+        });
 
         return v;
     }
 
     private View onGame(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v;
-        v = inflater.inflate(R.layout.panel_actions_game, container, false);
 
+        View v = inflater.inflate(R.layout.panel_actions_game, container, false);
 
-        View.OnClickListener listener = new View.OnClickListener() {
+        v.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onTouch(View view, MotionEvent motionEvent) {
                 MyActivity activity = (MyActivity) getActivity();
                 if (activity != null) {
+                    activity.onTouch(view, motionEvent);
                     activity.pause();
                     transition(Stage.PAUSE);
-
                 }
-            }
-        };
 
-        v.setOnClickListener(listener);
+                return false;
+            }
+        });
 
         return v;
     }
@@ -96,25 +93,31 @@ public class ActionsFragment extends Fragment {
         View btnResume = pauseView.findViewById(R.id.panel_actions_btn_start);
         View btnRestart = pauseView.findViewById(R.id.panel_actions_btn_restart);
 
-        btnResume.setOnClickListener(new View.OnClickListener() {
+        btnResume.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onTouch(View view, MotionEvent motionEvent) {
                 MyActivity activity = (MyActivity) getActivity();
                 if (activity != null) {
+                    activity.onTouch(view, motionEvent);
                     activity.resume();
                     transition(Stage.GAME);
                 }
+
+                return false;
             }
         });
 
-        btnRestart.setOnClickListener(new View.OnClickListener() {
+        btnRestart.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onTouch(View view, MotionEvent motionEvent) {
                 MyActivity activity = (MyActivity) getActivity();
                 if (activity != null) {
+                    activity.onTouch(view, motionEvent);
                     activity.reset();
                     transition(Stage.DISPOSAL);
                 }
+
+                return false;
             }
         });
 

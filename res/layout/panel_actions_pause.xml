@@ -7,18 +7,16 @@
                 android:layout_centerInParent="true" android:longClickable="false"
                 android:clickable="true">
 
-    <ImageButton
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:id="@+id/panel_actions_btn_start"
-            android:background="@android:drawable/ic_media_play"
-            android:layout_alignParentLeft="true" android:layout_centerInParent="true"/>
+    <ImageView android:background="@android:drawable/ic_media_play"
+               android:layout_width="36dp"
+               android:layout_height="36dp"
+               android:id="@+id/panel_actions_btn_start"
+               android:layout_alignParentLeft="true" android:layout_centerInParent="true"/>
 
-    <ImageButton
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:id="@+id/panel_actions_btn_restart"
-            android:background="@android:drawable/ic_menu_rotate"
-            android:layout_alignParentRight="true" android:layout_centerInParent="true"/>
+    <ImageView android:id="@+id/panel_actions_btn_restart"
+               android:layout_width="36dp"
+               android:layout_height="36dp"
+               android:background="@android:drawable/ic_menu_rotate"
+               android:layout_alignParentRight="true" android:layout_centerInParent="true"/>
 
 </RelativeLayout>

@@ -7,11 +7,9 @@
                 android:layout_centerInParent="true" android:longClickable="false"
                 android:clickable="true">
 
-    <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/panel_actions_btn_start"
-
-            android:background="@android:drawable/ic_media_play"
-            android:layout_alignParentLeft="false" android:layout_centerInParent="true"/>
+    <ImageView android:id="@+id/panel_actions_btn_start"
+               android:background="@android:drawable/ic_media_play"
+               android:layout_width="50dp"
+               android:layout_height="50dp"
+               android:layout_alignParentLeft="false" android:layout_centerInParent="true"/>
 </RelativeLayout>

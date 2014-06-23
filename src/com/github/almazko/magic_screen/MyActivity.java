@@ -9,12 +9,22 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-public class MyActivity extends Activity {
+public class MyActivity extends Activity implements View.OnTouchListener {
+
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+        timeLastAction = System.currentTimeMillis();
+        restoreBrightness();
+        return false;
+    }
 
     enum Stage {DISPOSAL, GAME, PAUSE}
 
@@ -26,6 +36,10 @@ public class MyActivity extends Activity {
     private static String KEY_STAGE = "stage";
     private static String KEY_TIME = "time";
 
+    private static final float BRIGHTNESS_WAITING = 0.02f;
+    private static final int WAITING = 5000;
+
+    long timeLastAction = 0;
 
     private MediaPlayer playerClick;
 
@@ -81,6 +95,10 @@ public class MyActivity extends Activity {
                 hideSeries((TextView) findViewById(R.id.player_2_series), 1000);
             }
 
+            if (time - timeLastAction > WAITING) {
+                setBrightness(BRIGHTNESS_WAITING);
+            }
+
             return false;
         }
     });
@@ -126,6 +144,9 @@ public class MyActivity extends Activity {
                 totalTimerHandler.sendEmptyMessage(0);
             }
         }, 0, 500L);
+
+        timeLastAction = System.currentTimeMillis();
+        findViewById(R.id.main_view).setOnTouchListener(this);
     }
 
     private void stageGame() {
@@ -144,7 +165,31 @@ public class MyActivity extends Activity {
         } else if (!timer.isStarted) {
             timer.start(0, 500);
         }
+
     }
+
+    void setBrightness(float value) {
+        WindowManager.LayoutParams layout = getWindow().getAttributes();
+        layout.screenBrightness = value;
+        getWindow().setAttributes(layout);
+    }
+
+    void restoreBrightness() {
+
+        int curBrightnessValue;
+        try {
+            curBrightnessValue = android.provider.Settings.System.getInt(getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS);
+        } catch (Settings.SettingNotFoundException e) {
+            return;
+        }
+
+        if (curBrightnessValue == 0) {
+            return;
+        }
+
+        setBrightness(curBrightnessValue);
+    }
+
 
     private void showGameViews() {
         findViewById(R.id.scr1_plus).setVisibility(View.VISIBLE);
