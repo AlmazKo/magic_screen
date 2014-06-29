@@ -7,16 +7,17 @@
                 android:layout_centerInParent="true" android:longClickable="false"
                 android:clickable="true">
 
-    <ImageView android:background="@drawable/ic_action_undo"
+    <ImageView android:id="@+id/panel_actions_btn_start"
+               android:src="@drawable/ic_action_play"
                android:layout_width="36dp"
                android:layout_height="36dp"
-               android:id="@+id/panel_actions_btn_start"
                android:layout_alignParentLeft="true" android:layout_centerInParent="true"/>
 
     <ImageView android:id="@+id/panel_actions_btn_restart"
+               android:src="@drawable/ic_action_replay"
                android:layout_width="36dp"
                android:layout_height="36dp"
-               android:background="@drawable/ic_action_replay"
+
                android:layout_alignParentRight="true" android:layout_centerInParent="true"/>
 
 </RelativeLayout>
