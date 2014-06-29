@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="125dp" android:layout_height="60dp"
+                android:layout_width="125dp" android:layout_height="50dp"
                 android:layout_alignParentLeft="false"
                 android:background="@android:drawable/toast_frame" android:id="@+id/panel_actions_start"
                 android:layout_centerInParent="true" android:longClickable="false"
                 android:clickable="true">
 
-    <ImageView android:background="@android:drawable/ic_media_play"
+    <ImageView android:background="@drawable/ic_action_undo"
                android:layout_width="36dp"
                android:layout_height="36dp"
                android:id="@+id/panel_actions_btn_start"
@@ -16,7 +16,7 @@
     <ImageView android:id="@+id/panel_actions_btn_restart"
                android:layout_width="36dp"
                android:layout_height="36dp"
-               android:background="@android:drawable/ic_menu_rotate"
+               android:background="@drawable/ic_action_replay"
                android:layout_alignParentRight="true" android:layout_centerInParent="true"/>
 
 </RelativeLayout>

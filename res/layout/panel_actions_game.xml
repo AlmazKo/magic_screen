@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="125dp" android:layout_height="60dp"
+                android:layout_width="110dp" android:layout_height="50dp"
                 android:layout_alignParentLeft="false"
                 android:background="@android:drawable/toast_frame" android:id="@+id/panel_actions_game"
                 android:layout_centerInParent="true" android:longClickable="false"
