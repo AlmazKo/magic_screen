@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import com.github.almazko.magic_screen.MyActivity.Stage;
 
 /**
@@ -50,18 +51,21 @@ public class ActionsFragment extends Fragment {
         View v = inflater.inflate(R.layout.panel_actions_start, container, false);
 
         View btnStart = v.findViewById(R.id.panel_actions_btn_start);
-        View btnBrightness = v.findViewById(R.id.panel_actions_btn_brightness);
+        ImageView btnBrightness = (ImageView) v.findViewById(R.id.panel_actions_btn_brightness);
 
         if (MyActivity.manageBrightness) {
-            btnBrightness.setBackgroundResource(R.drawable.ic_action_brightness_auto);
+            btnBrightness.setImageResource(R.drawable.ic_action_brightness_auto);
         } else {
-            btnBrightness.setBackgroundResource(R.drawable.ic_action_brightness_high);
+            btnBrightness.setImageResource(R.drawable.ic_action_brightness_high);
         }
 
         btnStart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
+                if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
+                    return false;
+                }
                 MyActivity activity = (MyActivity) getActivity();
                 if (activity != null) {
                     activity.onTouch(view, motionEvent);
@@ -77,6 +81,10 @@ public class ActionsFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
+                if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
+                    return false;
+                }
+
                 MyActivity activity = (MyActivity) getActivity();
                 if (activity == null) {
                     return false;
@@ -85,9 +93,9 @@ public class ActionsFragment extends Fragment {
                 activity.onTouch(view, motionEvent);
 
                 if (MyActivity.manageBrightness) {
-                    view.setBackgroundResource(R.drawable.ic_action_brightness_high);
+                    ((ImageView) view).setImageResource(R.drawable.ic_action_brightness_high);
                 }   else {
-                    view.setBackgroundResource(R.drawable.ic_action_brightness_auto);
+                    ((ImageView) view).setImageResource(R.drawable.ic_action_brightness_auto);
                 }
 
                 MyActivity.manageBrightness = !MyActivity.manageBrightness;
