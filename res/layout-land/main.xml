@@ -11,10 +11,10 @@
                  android:layout_alignParentLeft="true"/>
 
     <FrameLayout android:id="@+id/player_effect_1_screen"
-                 android:layout_width="300dp"
+                 android:layout_width="wrap_content"
                  android:layout_height="fill_parent"
                  android:layout_alignParentLeft="true"
-                 android:alpha="0"/>
+                 android:alpha="0" android:layout_alignRight="@+id/player_1_screen"/>
 
     <FrameLayout android:id="@+id/player_2_screen"
                  android:layout_width="300dp"
@@ -22,14 +22,15 @@
                  android:layout_alignParentRight="true"/>
 
     <FrameLayout android:id="@+id/player_effect_2_screen"
-                 android:layout_width="300dp"
+                 android:layout_width="wrap_content"
                  android:layout_height="fill_parent"
                  android:layout_alignParentRight="true"
-                 android:alpha="0"/>
+                 android:alpha="0" android:layout_alignLeft="@+id/player_2_screen"/>
 
     <RelativeLayout
-            android:layout_width="300dp"
-            android:layout_height="fill_parent" android:id="@+id/player_1_score" android:layout_alignParentLeft="true">
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" android:id="@+id/player_1_score" android:layout_alignParentLeft="true"
+            android:layout_alignRight="@+id/player_1_screen">
 
 
         <TextView android:id="@+id/scr1_plus"
@@ -65,9 +66,9 @@
     </RelativeLayout>
 
     <RelativeLayout
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent" android:id="@+id/player_2_score"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true" android:layout_toRightOf="@+id/player_1_score">
         <TextView android:id="@+id/scr2_plus"
                   android:text="+" style="@style/plus_minus"
                   android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -114,7 +115,7 @@
 
     <FrameLayout android:id="@+id/full_screen"
                  android:alpha="0"
-                 android:layout_width="fill_parent" android:layout_height="fill_parent">
+                 android:layout_width="fill_parent" android:layout_height="fill_parent" android:visibility="gone">
     </FrameLayout>
 
 </RelativeLayout>

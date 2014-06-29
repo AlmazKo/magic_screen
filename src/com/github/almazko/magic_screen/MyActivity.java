@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MyActivity extends Activity implements View.OnTouchListener {
@@ -166,6 +167,32 @@ public class MyActivity extends Activity implements View.OnTouchListener {
 
         timeLastAction = System.currentTimeMillis();
         findViewById(R.id.main_view).setOnTouchListener(this);
+
+        positioning();
+    }
+
+    private void positioning() {
+
+        final int barSize = getHeightStatusBar();
+        final Point size = getSize();
+
+        final int width = size.x;
+        final int height = size.y - barSize;
+
+        RelativeLayout.LayoutParams screen1sizing;
+        RelativeLayout.LayoutParams screen2sizing;
+        if (isLandscape()) {
+            screen1sizing = new RelativeLayout.LayoutParams(width/2, height);
+            screen2sizing = new RelativeLayout.LayoutParams(width/2, height);
+            screen2sizing.setMargins(width/2, 0, 0, 0);
+        } else {
+            screen1sizing = new RelativeLayout.LayoutParams(width, height/2);
+            screen2sizing = new RelativeLayout.LayoutParams(width, height/2);
+            screen2sizing.setMargins(0, height/2, 0, 0);
+        }
+
+        findViewById(R.id.player_1_screen).setLayoutParams(screen1sizing);
+        findViewById(R.id.player_2_screen).setLayoutParams(screen2sizing);
     }
 
     private void stageGame() {
@@ -580,7 +607,9 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         timer.stop();
         timer = null;
 
-        blink(findViewById(R.id.full_screen), android.R.color.background_dark, 1f, 300);
+        View shadower = findViewById(R.id.full_screen);
+        shadower.setVisibility(View.VISIBLE);
+        blink(shadower, android.R.color.background_dark, 1f, 300);
         stageDisposal();
         showPlayers();
     }

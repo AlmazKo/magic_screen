@@ -13,8 +13,8 @@
 
     <FrameLayout android:id="@+id/player_effect_1_screen"
             android:layout_width="match_parent"
-            android:layout_height="283dp"
-            android:layout_alignParentTop="true" android:alpha="0"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" android:alpha="0" android:layout_alignBottom="@+id/player_1_screen"/>
 
     <FrameLayout android:id="@+id/player_2_screen"
             android:layout_width="match_parent"
@@ -29,7 +29,7 @@
 
     <RelativeLayout android:id="@+id/player_1_score"
                     android:layout_width="match_parent"
-                    android:layout_height="283dp">
+                    android:layout_height="wrap_content" android:layout_alignBottom="@+id/player_1_screen">
 
         <TextView android:id="@+id/scr1_minus"
                   android:text="−" style="@style/plus_minus"
@@ -66,8 +66,9 @@
 
     <RelativeLayout android:id="@+id/player_2_score"
                     android:layout_width="match_parent"
-                    android:layout_height="283dp" android:layout_marginTop="-275dp"
-                    android:layout_alignParentBottom="true">
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true" android:layout_above="@+id/player_1_screen"
+                    android:layout_below="@+id/player_1_screen">
 
         <TextView android:id="@+id/scr2_minus"
                   android:text="−" style="@style/plus_minus"
@@ -115,6 +116,6 @@
 
     <FrameLayout android:id="@+id/full_screen"
                  android:alpha="0"
-                 android:layout_width="fill_parent" android:layout_height="fill_parent">
+                 android:layout_width="fill_parent" android:layout_height="fill_parent" android:visibility="gone">
     </FrameLayout>
 </RelativeLayout>
