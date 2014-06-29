@@ -49,7 +49,16 @@ public class ActionsFragment extends Fragment {
     private View onDisposalStage(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.panel_actions_start, container, false);
 
-        v.setOnTouchListener(new View.OnTouchListener() {
+        View btnStart = v.findViewById(R.id.panel_actions_btn_start);
+        View btnBrightness = v.findViewById(R.id.panel_actions_btn_brightness);
+
+        if (MyActivity.manageBrightness) {
+            btnBrightness.setBackgroundResource(R.drawable.ic_action_brightness_auto);
+        } else {
+            btnBrightness.setBackgroundResource(R.drawable.ic_action_brightness_high);
+        }
+
+        btnStart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
@@ -59,6 +68,29 @@ public class ActionsFragment extends Fragment {
                     activity.start();
                     transition(Stage.GAME);
                 }
+                return false;
+            }
+        });
+
+
+        btnBrightness.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                MyActivity activity = (MyActivity) getActivity();
+                if (activity == null) {
+                    return false;
+                }
+
+                activity.onTouch(view, motionEvent);
+
+                if (MyActivity.manageBrightness) {
+                    view.setBackgroundResource(R.drawable.ic_action_brightness_high);
+                }   else {
+                    view.setBackgroundResource(R.drawable.ic_action_brightness_auto);
+                }
+
+                MyActivity.manageBrightness = !MyActivity.manageBrightness;
                 return false;
             }
         });

@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent" android:layout_height="50dp"
                 android:layout_alignParentLeft="false"
-                android:background="#ff005897" android:id="@+id/panel_actions_start"
+                android:background="#ff44515c" android:id="@+id/panel_actions_start"
                 android:layout_centerInParent="true" android:longClickable="false"
                 android:clickable="true">
 
