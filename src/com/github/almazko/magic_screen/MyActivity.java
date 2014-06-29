@@ -132,6 +132,18 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         return size;
     }
 
+    public void onResume() {
+        super.onResume();
+
+        timeLastAction = System.currentTimeMillis();
+        isSleep = false;
+        restoreBrightness();
+    }
+
+    public void onPause() {
+       super.onPause();
+    }
+
     /**
      * Called when the activity is first created.
      */
@@ -173,6 +185,7 @@ public class MyActivity extends Activity implements View.OnTouchListener {
             }
         }, 0, 500L);
 
+        isSleep = false;
         timeLastAction = System.currentTimeMillis();
         findViewById(R.id.main_view).setOnTouchListener(this);
 
