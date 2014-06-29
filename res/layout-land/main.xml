@@ -8,24 +8,22 @@
     <FrameLayout android:id="@+id/player_1_screen"
                  android:layout_width="300dp"
                  android:layout_height="fill_parent"
-                 android:layout_alignParentLeft="true" android:layout_alignParentTop="false"/>
+                 android:layout_alignParentLeft="true"/>
 
     <FrameLayout android:id="@+id/player_effect_1_screen"
                  android:layout_width="300dp"
                  android:layout_height="fill_parent"
-                 android:layout_alignParentLeft="true" android:layout_alignParentTop="false"
+                 android:layout_alignParentLeft="true"
                  android:alpha="0"/>
 
     <FrameLayout android:id="@+id/player_2_screen"
                  android:layout_width="300dp"
                  android:layout_height="fill_parent"
-                 android:layout_alignParentLeft="false" android:layout_alignParentBottom="false"
                  android:layout_alignParentRight="true"/>
 
     <FrameLayout android:id="@+id/player_effect_2_screen"
                  android:layout_width="300dp"
                  android:layout_height="fill_parent"
-                 android:layout_alignParentLeft="false" android:layout_alignParentBottom="false"
                  android:layout_alignParentRight="true"
                  android:alpha="0"/>
 
@@ -55,9 +53,8 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="0"
-                  android:layout_alignParentBottom="false"
                   android:layout_centerHorizontal="true" style="@style/series"
-                  android:layout_below="@+id/scr1_score" android:textIsSelectable="false" android:alpha="0"/>
+                  android:layout_below="@+id/scr1_score" android:alpha="0"/>
 
         <TextView android:id="@+id/player_1_description"
                   android:layout_width="wrap_content"
@@ -70,7 +67,7 @@
     <RelativeLayout
             android:layout_width="300dp"
             android:layout_height="fill_parent" android:id="@+id/player_2_score"
-            android:layout_alignParentBottom="false" android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true">
         <TextView android:id="@+id/scr2_plus"
                   android:text="+" style="@style/plus_minus"
                   android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -93,9 +90,8 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="0"
-                  android:layout_alignParentBottom="false"
                   android:layout_centerHorizontal="true" style="@style/series"
-                  android:layout_below="@+id/scr2_score" android:textIsSelectable="false" android:alpha="0"/>
+                  android:layout_below="@+id/scr2_score" android:alpha="0"/>
 
         <TextView android:id="@+id/player_2_description"
                   android:layout_width="wrap_content"
@@ -108,7 +104,7 @@
     <ImageView
             android:layout_width="1dp"
             android:layout_height="fill_parent"
-            android:id="@+id/imageView" android:layout_alignParentBottom="false"
+            android:id="@+id/imageView"
             android:layout_centerInParent="true" android:background="#ff777777"/>
 
     <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"

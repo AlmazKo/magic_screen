@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,7 +42,7 @@ public class MyActivity extends Activity implements View.OnTouchListener {
 
     long timeLastAction = 0;
 
-    private MediaPlayer playerClick;
+    private MediaPlayer mpTick;
 
     final static long WAIT_SERIES = 1500;
     long lastSeriesPlayer1 = 0;
@@ -104,6 +105,24 @@ public class MyActivity extends Activity implements View.OnTouchListener {
     });
 
 
+    int getHeightStatusBar() {
+        int resId = getResources().getIdentifier("status_bar_height",
+                "dimen",
+                "android");
+        if (resId > 0) {
+            return getResources().getDimensionPixelSize(resId);
+        }
+
+        return 0;
+    }
+
+    Point getSize() {
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+
+        return size;
+    }
+
     /**
      * Called when the activity is first created.
      */
@@ -129,8 +148,8 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         showPlayers();
         showActions();
 
-        playerClick = MediaPlayer.create(this, R.raw.sound_tick1);
-        playerClick.setVolume(0.05f, 0.05f);
+        mpTick = MediaPlayer.create(this, R.raw.sound_tick1);
+        mpTick.setVolume(0.05f, 0.05f);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (!isLandscape()) {
@@ -154,7 +173,7 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         currentStage = Stage.GAME;
 
         removeStateDisposal();
-        gameStageEvents();
+        eventsGameStage();
 
         showGameViews();
 
@@ -178,7 +197,9 @@ public class MyActivity extends Activity implements View.OnTouchListener {
 
         int curBrightnessValue;
         try {
-            curBrightnessValue = android.provider.Settings.System.getInt(getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS);
+            curBrightnessValue = android.provider.Settings.System.getInt(getContentResolver(),
+                    android.provider.Settings.System.SCREEN_BRIGHTNESS);
+
         } catch (Settings.SettingNotFoundException e) {
             return;
         }
@@ -353,8 +374,7 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         anim.start();
     }
 
-
-    private void gameStageEvents() {
+    private void eventsGameStage() {
 
         findViewById(R.id.player_1_score).setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -438,7 +458,6 @@ public class MyActivity extends Activity implements View.OnTouchListener {
                 }
 
 
-
                 TextView tv = (TextView) findViewById(R.id.player_2_series);
 
                 if (seriesPlayer2 > 2 || seriesPlayer2 < -2) {
@@ -457,20 +476,20 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         });
     }
 
-    private void removeGameStageEvents() {
+    private void removeEventsGameStage() {
         findViewById(R.id.player_1_score).setOnTouchListener(null);
         findViewById(R.id.player_2_score).setOnTouchListener(null);
     }
 
     private void playClick() {
-        if (playerClick.isPlaying()) {
-            playerClick.seekTo(0);
+        if (mpTick.isPlaying()) {
+            mpTick.seekTo(0);
         } else {
-            playerClick.start();
+            mpTick.start();
         }
     }
 
-    private void choiceStageEvents() {
+    private void eventsChoiceStage() {
         View v;
 
         v = findViewById(R.id.player_1_screen);
@@ -513,8 +532,8 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         currentStage = Stage.DISPOSAL;
 
         hideGameViews();
-        removeGameStageEvents();
-        choiceStageEvents();
+        removeEventsGameStage();
+        eventsChoiceStage();
     }
 
     void start() {

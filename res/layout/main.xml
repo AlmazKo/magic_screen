@@ -9,23 +9,22 @@
     <FrameLayout android:id="@+id/player_1_screen"
             android:layout_width="match_parent"
             android:layout_height="283dp"
-            android:layout_alignParentLeft="false" android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"/>
 
     <FrameLayout android:id="@+id/player_effect_1_screen"
             android:layout_width="match_parent"
             android:layout_height="283dp"
-            android:layout_alignParentLeft="false" android:layout_alignParentBottom="false"
             android:layout_alignParentTop="true" android:alpha="0"/>
 
     <FrameLayout android:id="@+id/player_2_screen"
             android:layout_width="match_parent"
             android:layout_height="283dp"
-            android:layout_alignParentLeft="false" android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"/>
 
     <FrameLayout android:id="@+id/player_effect_2_screen"
             android:layout_width="match_parent"
             android:layout_height="283dp"
-            android:layout_alignParentLeft="false" android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="true"
             android:alpha="0"/>
 
     <RelativeLayout android:id="@+id/player_1_score"
@@ -54,9 +53,8 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="0"
-                  android:layout_alignParentBottom="false"
                   android:layout_centerHorizontal="true" style="@style/series"
-                  android:layout_below="@+id/scr1_score" android:textIsSelectable="false" android:alpha="0"/>
+                  android:layout_below="@+id/scr1_score" android:alpha="0"/>
 
         <TextView android:id="@+id/player_1_description"
                 android:layout_width="wrap_content"
@@ -108,7 +106,6 @@
     <ImageView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:layout_alignParentBottom="false"
             android:layout_centerInParent="true" android:background="#ff777777"/>
 
     <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"

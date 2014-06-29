@@ -73,4 +73,9 @@ public class SlideFragment extends Fragment {
         int index = bundle.getInt(INDEX);
         return newInstance(index);
     }
+
+    @Override
+    public String toString() {
+        return "SlideFragment{" + index + '}';
+    }
 }
