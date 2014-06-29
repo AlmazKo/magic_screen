@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -109,6 +110,8 @@ public class MyActivity extends Activity implements View.OnTouchListener {
                 setBrightness(BRIGHTNESS_WAITING);
             }
 
+            Log.i("MAGIC", "test");
+
             return false;
         }
     });
@@ -138,10 +141,12 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         timeLastAction = System.currentTimeMillis();
         isSleep = false;
         restoreBrightness();
+        runTotalTimer();
     }
 
     public void onPause() {
-       super.onPause();
+        super.onPause();
+
     }
 
     /**
@@ -177,13 +182,7 @@ public class MyActivity extends Activity implements View.OnTouchListener {
             rotatePlayer1Screen();
         }
 
-        totalTimer = new java.util.Timer();
-        totalTimer.scheduleAtFixedRate(new java.util.TimerTask() {
-            @Override
-            public void run() {
-                totalTimerHandler.sendEmptyMessage(0);
-            }
-        }, 0, 500L);
+        runTotalTimer();
 
         isSleep = false;
         timeLastAction = System.currentTimeMillis();
@@ -288,6 +287,10 @@ public class MyActivity extends Activity implements View.OnTouchListener {
             outState.putLong(KEY_TIME, 0);
         }
 
+        if (totalTimer != null) {
+            totalTimer.cancel();
+            totalTimer = null;
+        }
     }
 
     void changeScreenToRight(final Player player) {
@@ -609,6 +612,21 @@ public class MyActivity extends Activity implements View.OnTouchListener {
 
         if (timer == null) {
             timer = new Timer(gameTimerCallback, state.getLong(KEY_TIME));
+        }
+
+        runTotalTimer();
+    }
+
+    void runTotalTimer() {
+        if (totalTimer == null) {
+
+            totalTimer = new java.util.Timer();
+            totalTimer.scheduleAtFixedRate(new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    totalTimerHandler.sendEmptyMessage(0);
+                }
+            }, 0, 500L);
         }
     }
 
