@@ -764,7 +764,12 @@ public class MyActivity extends Activity implements View.OnTouchListener {
 
     private void showPlayer(Player player) {
         TextView tw = (TextView) findViewById(player.lifeViewId);
-        tw.setText(String.valueOf(player.life));
+        String life = String.valueOf(player.life);
+        if (player.life == 6 || player.life == 9) {
+            life += '.';
+        }
+
+        tw.setText(life);
     }
 
     boolean isLandscape() {
