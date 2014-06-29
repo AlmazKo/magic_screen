@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -45,6 +46,8 @@ public class MyActivity extends Activity implements View.OnTouchListener {
     public static final String PREFS_NAME = "mtg_preferences";
 
     public static boolean manageBrightness = false;
+    static boolean fullScreen = false;
+
     // rename player1 -> opponent
     private static String KEY_PLAYER_1 = "player_1";
     private static String KEY_PLAYER_2 = "player_2";
@@ -133,6 +136,16 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         return 0;
     }
 
+    int getHeightNavBar() {
+        Resources resources = getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+
+        return 0;
+    }
+
     Point getSize() {
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -150,7 +163,7 @@ public class MyActivity extends Activity implements View.OnTouchListener {
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
 
         // We need an Editor object to make preference changes.
@@ -214,21 +227,35 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         manageBrightness = settings.getBoolean("manage_brightness", false);
     }
 
-    private void positioning() {
+    void positioning() {
 
-        final int barSize = getHeightStatusBar();
-        final Point size = getSize();
+        int barSize = getHeightStatusBar();
+        Point size = getSize();
 
-        final int width = size.x;
-        final int height = size.y - barSize;
+        int width = size.x;
+        int height = size.y;
+
 
         RelativeLayout.LayoutParams screen1sizing;
         RelativeLayout.LayoutParams screen2sizing;
         if (isLandscape()) {
+            if (fullScreen) {
+                width += getHeightNavBar();
+            } else {
+                height -= barSize;
+            }
+
             screen1sizing = new RelativeLayout.LayoutParams(width / 2, height);
             screen2sizing = new RelativeLayout.LayoutParams(width / 2, height);
             screen2sizing.setMargins(width / 2, 0, 0, 0);
         } else {
+
+            if (fullScreen) {
+                height += getHeightNavBar();
+            } else {
+                height -= barSize;
+            }
+
             screen1sizing = new RelativeLayout.LayoutParams(width, height / 2);
             screen2sizing = new RelativeLayout.LayoutParams(width, height / 2);
             screen2sizing.setMargins(0, height / 2, 0, 0);

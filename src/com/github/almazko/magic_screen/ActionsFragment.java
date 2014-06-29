@@ -3,10 +3,7 @@ package com.github.almazko.magic_screen;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ImageView;
 import com.github.almazko.magic_screen.MyActivity.Stage;
 
@@ -52,6 +49,7 @@ public class ActionsFragment extends Fragment {
 
         View btnStart = v.findViewById(R.id.panel_actions_btn_start);
         ImageView btnBrightness = (ImageView) v.findViewById(R.id.panel_actions_btn_brightness);
+        ImageView btnFullScreen = (ImageView) v.findViewById(R.id.panel_actions_btn_full_screen);
 
         if (MyActivity.manageBrightness) {
             btnBrightness.setImageResource(R.drawable.ic_action_brightness_auto);
@@ -94,11 +92,51 @@ public class ActionsFragment extends Fragment {
 
                 if (MyActivity.manageBrightness) {
                     ((ImageView) view).setImageResource(R.drawable.ic_action_brightness_high);
-                }   else {
+                } else {
                     ((ImageView) view).setImageResource(R.drawable.ic_action_brightness_auto);
                 }
 
                 MyActivity.manageBrightness = !MyActivity.manageBrightness;
+                return false;
+            }
+        });
+
+
+        btnFullScreen.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
+                    return false;
+                }
+
+                MyActivity activity = (MyActivity) getActivity();
+                if (activity == null) {
+                    return false;
+                }
+
+                activity.onTouch(view, motionEvent);
+
+                View decorView = activity.getWindow().getDecorView();
+
+                int uiOptions = 0;
+                if (MyActivity.fullScreen) {
+                    ((ImageView) view).setImageResource(R.drawable.ic_action_return_from_full_screen);
+                } else {
+                    ((ImageView) view).setImageResource(R.drawable.ic_action_full_screen);
+
+                    uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                            View.SYSTEM_UI_FLAG_FULLSCREEN |
+                            View.SYSTEM_UI_FLAG_IMMERSIVE;
+                }
+
+                decorView.setSystemUiVisibility(uiOptions);
+                MyActivity.fullScreen = !MyActivity.fullScreen;
+                activity.positioning();
+
                 return false;
             }
         });
