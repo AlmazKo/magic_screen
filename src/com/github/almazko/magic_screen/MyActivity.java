@@ -646,11 +646,45 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         timer.stop();
         timer = null;
 
-        View shadower = findViewById(R.id.full_screen);
+        gameOver(android.R.color.background_dark, 300);
+    }
+
+    void gameOver(final int bgId, final int duration) {
+
+        final View shadower = findViewById(R.id.full_screen);
         shadower.setVisibility(View.VISIBLE);
-        blink(shadower, android.R.color.background_dark, 1f, 300);
-        stageDisposal();
-        showPlayers();
+        shadower.setBackgroundResource(bgId);
+
+        ValueAnimator appear = ValueAnimator.ofFloat(0, 1f);
+        appear.setDuration(duration);
+        appear.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                shadower.setAlpha((Float) valueAnimator.getAnimatedValue());
+            }
+        });
+        ValueAnimator caller = AnimatorCallback.get(new AnimatorCallback.Callback() {
+            @Override
+            public void call() {
+                stageDisposal();
+                showPlayers();
+            }
+        });
+
+        ValueAnimator disappear = ValueAnimator.ofFloat(1f, 0);
+        disappear.setDuration(duration);
+        disappear.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                shadower.setAlpha((Float) valueAnimator.getAnimatedValue());
+            }
+        });
+
+        AnimatorSet animSet = new AnimatorSet();
+
+        animSet.play(appear).before(caller);
+        animSet.play(caller).before(disappear);
+        animSet.start();
     }
 
     private void init() {
