@@ -29,7 +29,8 @@
 
     <RelativeLayout android:id="@+id/player_1_score"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:layout_alignBottom="@+id/player_1_screen">
+                    android:layout_height="wrap_content" android:layout_alignBottom="@+id/player_1_screen"
+                    android:layout_alignParentTop="true">
 
         <TextView android:id="@+id/scr1_minus"
                   android:text="−" style="@style/plus_minus"
@@ -61,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/descr_swipe"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" style="@style/description" />
+                android:layout_centerHorizontal="true" style="@style/description"/>
     </RelativeLayout>
 
     <RelativeLayout android:id="@+id/player_2_score"
