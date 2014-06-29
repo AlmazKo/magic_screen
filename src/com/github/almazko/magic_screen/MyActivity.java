@@ -24,13 +24,20 @@ public class MyActivity extends Activity implements View.OnTouchListener {
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
         timeLastAction = System.currentTimeMillis();
-        restoreBrightness();
+        if (isSleep) {
+            isSleep = false;
+            restoreBrightness();
+
+        }
         return false;
     }
 
     enum Stage {DISPOSAL, GAME, PAUSE}
 
     Stage currentStage;
+
+
+    static boolean isSleep = false;
 
     // rename player1 -> opponent
     private static String KEY_PLAYER_1 = "player_1";
@@ -98,6 +105,7 @@ public class MyActivity extends Activity implements View.OnTouchListener {
             }
 
             if (time - timeLastAction > WAITING) {
+                isSleep = true;
                 setBrightness(BRIGHTNESS_WAITING);
             }
 
@@ -182,13 +190,13 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         RelativeLayout.LayoutParams screen1sizing;
         RelativeLayout.LayoutParams screen2sizing;
         if (isLandscape()) {
-            screen1sizing = new RelativeLayout.LayoutParams(width/2, height);
-            screen2sizing = new RelativeLayout.LayoutParams(width/2, height);
-            screen2sizing.setMargins(width/2, 0, 0, 0);
+            screen1sizing = new RelativeLayout.LayoutParams(width / 2, height);
+            screen2sizing = new RelativeLayout.LayoutParams(width / 2, height);
+            screen2sizing.setMargins(width / 2, 0, 0, 0);
         } else {
-            screen1sizing = new RelativeLayout.LayoutParams(width, height/2);
-            screen2sizing = new RelativeLayout.LayoutParams(width, height/2);
-            screen2sizing.setMargins(0, height/2, 0, 0);
+            screen1sizing = new RelativeLayout.LayoutParams(width, height / 2);
+            screen2sizing = new RelativeLayout.LayoutParams(width, height / 2);
+            screen2sizing.setMargins(0, height / 2, 0, 0);
         }
 
         findViewById(R.id.player_1_screen).setLayoutParams(screen1sizing);
