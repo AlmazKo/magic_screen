@@ -221,11 +221,29 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         timeLastAction = System.currentTimeMillis();
         findViewById(R.id.main_view).setOnTouchListener(this);
 
+        setFullscreenMode();
         positioning();
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         manageBrightness = settings.getBoolean("manage_brightness", false);
     }
+
+    void setFullscreenMode() {
+        View decorView = getWindow().getDecorView();
+        int uiOptions = 0;
+        if (fullScreen) {
+
+            uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                    View.SYSTEM_UI_FLAG_FULLSCREEN |
+                    View.SYSTEM_UI_FLAG_IMMERSIVE;
+        }
+
+        decorView.setSystemUiVisibility(uiOptions);
+    }
+
 
     void positioning() {
 

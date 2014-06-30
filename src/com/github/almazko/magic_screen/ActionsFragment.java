@@ -117,24 +117,15 @@ public class ActionsFragment extends Fragment {
 
                 activity.onTouch(view, motionEvent);
 
-                View decorView = activity.getWindow().getDecorView();
-
-                int uiOptions = 0;
                 if (MyActivity.fullScreen) {
-                    ((ImageView) view).setImageResource(R.drawable.ic_action_return_from_full_screen);
-                } else {
                     ((ImageView) view).setImageResource(R.drawable.ic_action_full_screen);
 
-                    uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                            View.SYSTEM_UI_FLAG_FULLSCREEN |
-                            View.SYSTEM_UI_FLAG_IMMERSIVE;
+                } else {
+                    ((ImageView) view).setImageResource(R.drawable.ic_action_return_from_full_screen);
                 }
 
-                decorView.setSystemUiVisibility(uiOptions);
                 MyActivity.fullScreen = !MyActivity.fullScreen;
+                activity.setFullscreenMode();
                 activity.positioning();
 
                 return false;
