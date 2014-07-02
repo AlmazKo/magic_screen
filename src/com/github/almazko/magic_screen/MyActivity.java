@@ -212,7 +212,7 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (!isLandscape()) {
-            rotatePlayer1Screen();
+            rotatePlayer2Screen();
         }
 
         runTotalTimer();
@@ -275,8 +275,8 @@ public class MyActivity extends Activity implements View.OnTouchListener {
             }
 
             screen1sizing = new RelativeLayout.LayoutParams(width, height / 2);
+            screen1sizing.setMargins(0, height / 2, 0, 0);
             screen2sizing = new RelativeLayout.LayoutParams(width, height / 2);
-            screen2sizing.setMargins(0, height / 2, 0, 0);
         }
 
         findViewById(R.id.player_1_screen).setLayoutParams(screen1sizing);
@@ -794,8 +794,8 @@ public class MyActivity extends Activity implements View.OnTouchListener {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
-    void rotatePlayer1Screen() {
-        findViewById(R.id.player_1_score).setRotation(180);
+    void rotatePlayer2Screen() {
+        findViewById(R.id.player_2_score).setRotation(180);
     }
 
     static boolean isRight(final View v, final MotionEvent e) {
