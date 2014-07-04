@@ -796,6 +796,7 @@ public class MyActivity extends Activity implements View.OnTouchListener {
 
     void rotatePlayer2Screen() {
         findViewById(R.id.player_2_score).setRotation(180);
+        findViewById(R.id.player_2_screen).setRotation(180);
     }
 
     static boolean isRight(final View v, final MotionEvent e) {
