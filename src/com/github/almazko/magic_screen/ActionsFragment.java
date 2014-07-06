@@ -5,14 +5,14 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.ImageView;
-import com.github.almazko.magic_screen.MyActivity.Stage;
+import com.github.almazko.magic_screen.MyActivity.SStage;
 
 /**
  * @author Almazko
  */
 public class ActionsFragment extends Fragment {
 
-    private Stage state;
+    private SStage state;
     private View vs;
 
     @Override
@@ -21,9 +21,9 @@ public class ActionsFragment extends Fragment {
 
         Bundle b = getArguments();
         if (b == null) {
-            state = Stage.DISPOSAL;
+            state = SStage.DISPOSAL;
         } else {
-            state = (Stage) b.getSerializable("stage");
+            state = (SStage) b.getSerializable("stage");
         }
     }
 
@@ -67,8 +67,8 @@ public class ActionsFragment extends Fragment {
                 MyActivity activity = (MyActivity) getActivity();
                 if (activity != null) {
                     activity.onTouch(view, motionEvent);
-                    activity.start();
-                    transition(Stage.GAME);
+                    activity.onStageStart();
+                    transition(SStage.GAME);
                 }
                 return false;
             }
@@ -145,8 +145,8 @@ public class ActionsFragment extends Fragment {
                 MyActivity activity = (MyActivity) getActivity();
                 if (activity != null) {
                     activity.onTouch(view, motionEvent);
-                    activity.pause();
-                    transition(Stage.PAUSE);
+                    activity.onStagePauseToGame();
+                    transition(SStage.PAUSE);
                 }
 
                 return false;
@@ -168,8 +168,8 @@ public class ActionsFragment extends Fragment {
                 MyActivity activity = (MyActivity) getActivity();
                 if (activity != null) {
                     activity.onTouch(view, motionEvent);
-                    activity.resume();
-                    transition(Stage.GAME);
+                    activity.onStagePauseToGame();
+                    transition(MyActivity.SStage.GAME);
                 }
 
                 return false;
@@ -182,8 +182,8 @@ public class ActionsFragment extends Fragment {
                 MyActivity activity = (MyActivity) getActivity();
                 if (activity != null) {
                     activity.onTouch(view, motionEvent);
-                    activity.reset();
-                    transition(Stage.DISPOSAL);
+                    activity.onStagePauseToDisposal();
+                    transition(SStage.DISPOSAL);
                 }
 
                 return false;
@@ -194,7 +194,7 @@ public class ActionsFragment extends Fragment {
     }
 
 
-    public static ActionsFragment newInstance(Stage stage) {
+    public static ActionsFragment newInstance(SStage stage) {
 
         ActionsFragment sf = new ActionsFragment();
         Bundle args = new Bundle();
@@ -204,7 +204,7 @@ public class ActionsFragment extends Fragment {
         return sf;
     }
 
-    void transition(Stage stage) {
+    void transition(SStage stage) {
         ActionsFragment fg = newInstance(stage);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
