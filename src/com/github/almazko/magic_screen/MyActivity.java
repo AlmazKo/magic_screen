@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -33,7 +33,10 @@ public class MyActivity extends Activity implements View.OnTouchListener {
     private static final float BRIGHTNESS_WAITING = 0.02f;
     private static final int WAITING = 5000;
 
-    Handler.Callback totalCallback = new Handler.Callback() {
+
+    static long timeLastAction = 0;
+
+    Handler.Callback totalTimerCallback = new Handler.Callback() {
         Collection<Handler.Callback> callbacks = new LinkedList<>();
 
         @Override
@@ -65,13 +68,13 @@ public class MyActivity extends Activity implements View.OnTouchListener {
     static boolean manageBrightness = false;
     static boolean fullScreen = false;
 
-    long timeLastAction = 0;
+
     MediaPlayer playerTick;
     Player player1;
     Player player2;
     java.util.Timer totalTimer;
 
-    final Handler totalTimerHandler = new Handler(totalCallback);
+    final Handler totalTimerHandler = new Handler(totalTimerCallback);
     final Effect effect = new Effect();
 
     @Override
@@ -112,9 +115,6 @@ public class MyActivity extends Activity implements View.OnTouchListener {
 
     }
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -357,6 +357,9 @@ public class MyActivity extends Activity implements View.OnTouchListener {
     }
 
     void runTotalTimer() {
+
+
+        totalTimerHandler.call
         if (totalTimer == null) {
 
             totalTimer = new java.util.Timer();

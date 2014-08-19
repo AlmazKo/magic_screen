@@ -31,8 +31,8 @@ abstract class Stage {
     abstract public void begin(@Nullable Stage prev);
 
     public void end(@Nullable Stage next) {
-        context = null;
-        player1 = null;
-        player2 = null;
+//        context = null;
+//        player1 = null;
+//        player2 = null;
     }
 }
